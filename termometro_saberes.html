@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Termómetro de saberes previos</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #f9f7f4; color: #1a1a1a; min-height: 100vh; }
+.container { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem; }
+.header { margin-bottom: 0.5rem; }
+.header h1 { font-size: 17px; font-weight: 500; color: #1a1a1a; }
+.header p { font-size: 13px; color: #888; margin-top: 3px; }
+.mode-toggle { display: flex; gap: 6px; margin: 1rem 0 1.5rem; flex-wrap: wrap; }
+.mode-btn { font-size: 12px; padding: 5px 12px; border: 1px solid #ddd; border-radius: 8px; background: transparent; color: #666; cursor: pointer; transition: all 0.15s; }
+.mode-btn.active { background: #fff; color: #1a1a1a; border-color: #E8651A; font-weight: 500; }
+.thermometer-wrap { display: flex; gap: 1rem; align-items: flex-end; justify-content: center; margin: 1rem 0 1.5rem; }
+.therm-visual { display: flex; flex-direction: column; align-items: center; gap: 0; width: 56px; flex-shrink: 0; }
+.therm-tube { width: 22px; height: 190px; background: #eee; border: 1.5px solid #ccc; border-radius: 11px 11px 0 0; border-bottom: none; position: relative; overflow: hidden; }
+.therm-fill { position: absolute; bottom: 0; left: 0; right: 0; background: #E8651A; transition: height 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+.therm-bulb { width: 30px; height: 30px; border-radius: 50%; background: #E8651A; border: 1.5px solid #c0520f; margin-top: -1px; }
+.therm-label { font-size: 12px; color: #888; margin-top: 5px; font-weight: 500; }
+.levels { display: grid; grid-template-columns: 1fr; gap: 6px; flex: 1; }
+.level-card { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid #e5e5e5; border-radius: 10px; background: #fff; cursor: pointer; transition: all 0.15s; user-select: none; -webkit-tap-highlight-color: transparent; }
+.level-card:hover { border-color: #E8651A; }
+.level-card.selected { border-color: #E8651A; background: #FFF3EC; }
+.level-card.selected .level-num { background: #E8651A; color: #fff; }
+.level-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; background: #f0f0f0; color: #666; flex-shrink: 0; transition: all 0.15s; }
+.level-text { flex: 1; }
+.level-title { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+.level-desc { font-size: 12px; color: #888; margin-top: 1px; }
+.divider { height: 1px; background: #eee; margin: 1rem 0; }
+.reg-title { font-size: 13px; color: #666; margin-bottom: 10px; }
+
+/* Campos de sesión */
+.session-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.session-fields input, .session-fields select {
+  width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 8px;
+  font-size: 13px; font-family: inherit; background: #fff; color: #1a1a1a;
+}
+.session-fields input:focus, .session-fields select:focus { outline: none; border-color: #E8651A; }
+.session-fields input::placeholder { color: #bbb; }
+
+.tally-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; }
+.tally-card { border: 1px solid #e5e5e5; border-radius: 10px; padding: 10px 4px; text-align: center; background: #fff; }
+.tally-num { font-size: 12px; color: #888; }
+.tally-count { font-size: 24px; font-weight: 500; color: #E8651A; line-height: 1.2; margin: 4px 0; }
+.tally-btns { display: flex; gap: 4px; justify-content: center; }
+.tally-btn { width: 26px; height: 26px; border: 1px solid #ddd; border-radius: 6px; background: transparent; color: #666; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.1s; }
+.tally-btn:hover { background: #f5f5f5; }
+.tally-btn.plus { color: #E8651A; border-color: #E8651A; }
+.summary-bar { display: flex; align-items: center; padding: 10px 14px; background: #f5f5f5; border-radius: 10px; font-size: 13px; color: #666; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.summary-num { font-weight: 500; color: #1a1a1a; }
+.avg-val { font-size: 20px; font-weight: 500; color: #E8651A; }
+.summary-avg { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+
+/* Botones de acción */
+.action-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-copy { flex: 1; min-width: 140px; padding: 10px 14px; border: 1px solid #E8651A; border-radius: 8px; background: #fff; color: #E8651A; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.btn-copy:hover { background: #FFF3EC; }
+.btn-copy:active { transform: scale(0.98); }
+.btn-sheets { flex: 1; min-width: 140px; padding: 10px 14px; border: none; border-radius: 8px; background: #E8651A; color: #fff; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.btn-sheets:hover { background: #d4580f; }
+.btn-sheets:active { transform: scale(0.98); }
+.btn-sheets:disabled { background: #ccc; cursor: not-allowed; }
+
+/* Toast */
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 13px; transition: transform 0.3s; z-index: 999; white-space: nowrap; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.error { background: #c0392b; }
+.toast.success { background: #27ae60; }
+
+/* Config de Sheets */
+.sheets-config { margin-top: 14px; padding: 12px 14px; background: #fff8f0; border: 1px solid #f5cba7; border-radius: 10px; display: none; }
+.sheets-config.open { display: block; }
+.sheets-config label { font-size: 12px; color: #666; display: block; margin-bottom: 5px; }
+.sheets-config input { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 12px; font-family: inherit; }
+.sheets-config input:focus { outline: none; border-color: #E8651A; }
+.config-hint { font-size: 11px; color: #aaa; margin-top: 5px; line-height: 1.5; }
+.config-link { color: #E8651A; text-decoration: none; }
+.btn-save-config { margin-top: 8px; padding: 6px 14px; border: 1px solid #E8651A; border-radius: 6px; background: transparent; color: #E8651A; font-size: 12px; cursor: pointer; font-family: inherit; }
+
+.reset-btn { font-size: 12px; color: #aaa; background: none; border: none; cursor: pointer; text-decoration: underline; margin-top: 10px; display: block; }
+.config-toggle { font-size: 12px; color: #aaa; background: none; border: none; cursor: pointer; text-decoration: underline; display: inline; }
+
+.screen-labels { display: none; flex-direction: column; gap: 0; flex: 1; }
+.screen-label { display: flex; align-items: center; gap: 10px; height: 58px; border-bottom: 1px solid #f0f0f0; }
+.screen-label:last-child { border-bottom: none; }
+.sl-num { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500; background: #f0f0f0; color: #666; flex-shrink: 0; transition: all 0.2s; }
+.sl-text { font-size: 15px; color: #1a1a1a; }
+.screen-label.active .sl-num { background: #E8651A; color: #fff; }
+.screen-label.active .sl-text { font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Termómetro de saberes previos</h1>
+    <p>Gestión de proyectos para organizaciones sociales</p>
+  </div>
+
+  <div class="mode-toggle">
+    <button class="mode-btn active" onclick="setMode('individual')" id="btn-individual">Individual</button>
+    <button class="mode-btn" onclick="setMode('screen')" id="btn-screen">Pantalla compartida</button>
+    <button class="mode-btn" onclick="setMode('registro')" id="btn-registro">Registro grupal</button>
+  </div>
+
+  <div class="thermometer-wrap" id="therm-wrap">
+    <div class="therm-visual">
+      <div class="therm-tube"><div class="therm-fill" id="therm-fill" style="height:0%"></div></div>
+      <div class="therm-bulb"></div>
+      <div class="therm-label" id="therm-label">—</div>
+    </div>
+
+    <div class="levels" id="levels-panel">
+      <div class="level-card" onclick="selectLevel(1)"><div class="level-num" id="ln1">1</div><div class="level-text"><div class="level-title">No conozco nada</div><div class="level-desc">Es la primera vez que escucho sobre esto</div></div></div>
+      <div class="level-card" onclick="selectLevel(2)"><div class="level-num" id="ln2">2</div><div class="level-text"><div class="level-title">Algo he escuchado</div><div class="level-desc">Conozco la palabra pero no cómo funciona</div></div></div>
+      <div class="level-card" onclick="selectLevel(3)"><div class="level-num" id="ln3">3</div><div class="level-text"><div class="level-title">Tengo nociones básicas</div><div class="level-desc">He participado en algo relacionado</div></div></div>
+      <div class="level-card" onclick="selectLevel(4)"><div class="level-num" id="ln4">4</div><div class="level-text"><div class="level-title">Conozco bien el tema</div><div class="level-desc">He trabajado en proyectos o convocatorias</div></div></div>
+      <div class="level-card" onclick="selectLevel(5)"><div class="level-num" id="ln5">5</div><div class="level-text"><div class="level-title">Lo manejo y lo puedo enseñar</div><div class="level-desc">Tengo experiencia y puedo orientar a otras</div></div></div>
+    </div>
+
+    <div class="screen-labels" id="screen-labels">
+      <div class="screen-label" id="sl5"><div class="sl-num">5</div><div class="sl-text">Lo manejo y lo puedo enseñar</div></div>
+      <div class="screen-label" id="sl4"><div class="sl-num">4</div><div class="sl-text">Conozco bien el tema</div></div>
+      <div class="screen-label" id="sl3"><div class="sl-num">3</div><div class="sl-text">Tengo nociones básicas</div></div>
+      <div class="screen-label" id="sl2"><div class="sl-num">2</div><div class="sl-text">Algo he escuchado</div></div>
+      <div class="screen-label" id="sl1"><div class="sl-num">1</div><div class="sl-text">No conozco nada</div></div>
+    </div>
+  </div>
+
+  <div class="divider" id="divider"></div>
+
+  <div id="register-section" style="display:none">
+    <div class="reg-title">Completa los datos de la sesión antes de registrar</div>
+
+    <div class="session-fields">
+      <input type="text" id="field-facilitadora" placeholder="Tu nombre" />
+      <input type="date" id="field-fecha" />
+      <select id="field-sede">
+        <option value="">Sede…</option>
+        <option value="Quibdó">Quibdó</option>
+        <option value="Tumaco">Tumaco</option>
+      </select>
+      <input type="text" id="field-circulo" placeholder="Nº o nombre del círculo" />
+    </div>
+
+    <div class="reg-title">Toca + por cada participante según el nivel que diga en voz alta</div>
+    <div class="tally-grid">
+      <div class="tally-card"><div class="tally-num">Nivel 1</div><div class="tally-count" id="cnt1">0</div><div class="tally-btns"><button class="tally-btn" onclick="tally(1,-1)">−</button><button class="tally-btn plus" onclick="tally(1,1)">+</button></div></div>
+      <div class="tally-card"><div class="tally-num">Nivel 2</div><div class="tally-count" id="cnt2">0</div><div class="tally-btns"><button class="tally-btn" onclick="tally(2,-1)">−</button><button class="tally-btn plus" onclick="tally(2,1)">+</button></div></div>
+      <div class="tally-card"><div class="tally-num">Nivel 3</div><div class="tally-count" id="cnt3">0</div><div class="tally-btns"><button class="tally-btn" onclick="tally(3,-1)">−</button><button class="tally-btn plus" onclick="tally(3,1)">+</button></div></div>
+      <div class="tally-card"><div class="tally-num">Nivel 4</div><div class="tally-count" id="cnt4">0</div><div class="tally-btns"><button class="tally-btn" onclick="tally(4,-1)">−</button><button class="tally-btn plus" onclick="tally(4,1)">+</button></div></div>
+      <div class="tally-card"><div class="tally-num">Nivel 5</div><div class="tally-count" id="cnt5">0</div><div class="tally-btns"><button class="tally-btn" onclick="tally(5,-1)">−</button><button class="tally-btn plus" onclick="tally(5,1)">+</button></div></div>
+    </div>
+
+    <div class="summary-bar">
+      <span>Total: <span class="summary-num" id="total-count">0</span> participantes</span>
+      <div class="summary-avg"><span style="font-size:13px;color:#666">Promedio inicial:</span> <span class="avg-val" id="avg-val">—</span></div>
+    </div>
+
+    <div class="action-btns">
+      <button class="btn-copy" onclick="copyResult()">📋 Copiar resultado</button>
+      <button class="btn-sheets" onclick="sendToSheets()" id="btn-sheets-send">📊 Guardar en Sheets</button>
+    </div>
+
+    <div id="sheets-config" class="sheets-config">
+      <label>URL del script de Google Sheets</label>
+      <input type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/..." />
+      <p class="config-hint">
+        Cómo obtenerla: abre tu Google Sheet → Extensiones → Apps Script → pega el código que te dieron → Implementar → Nueva implementación → Aplicación web → Ejecutar como "Yo" → Cualquiera puede acceder → Copiar URL e ingresarla aquí.<br>
+        <a class="config-link" href="https://docs.google.com/spreadsheets/create" target="_blank">Crear una hoja nueva →</a>
+      </p>
+      <button class="btn-save-config" onclick="saveConfig()">Guardar URL</button>
+    </div>
+
+    <div style="margin-top:10px; display:flex; gap:12px; align-items:center;">
+      <button class="reset-btn" onclick="resetTally()">Reiniciar conteo</button>
+      <button class="config-toggle" onclick="toggleConfig()" id="config-toggle-btn">⚙️ Configurar Sheets</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var mode='individual', selected=0, counts=[0,0,0,0,0];
+var heights=[0,10,30,50,72,94];
+var sheetsUrl = localStorage.getItem('termometro_sheets_url') || 'https://script.google.com/macros/s/AKfycbzyu-uRpKyvCkRg9vJvV8LRvgsAuO9TnLFEDHxIASO9c-1oddB_JEFSnNnkoi3oZaqc/exec';
+if(sheetsUrl) document.addEventListener('DOMContentLoaded', function(){ var el=document.getElementById('sheets-url'); if(el) el.value=sheetsUrl; });
+
+function showToast(msg, type){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast '+(type||'');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+function selectLevel(n){
+  if(mode!=='individual')return;
+  selected=n;
+  for(var i=1;i<=5;i++){
+    var cards=document.querySelectorAll('.level-card');
+    var ln=document.getElementById('ln'+i);
+    if(i===n){cards[i-1].classList.add('selected');ln.style.background='#E8651A';ln.style.color='#fff';}
+    else{cards[i-1].classList.remove('selected');ln.style.background='';ln.style.color='';}
+    var sl=document.getElementById('sl'+i);
+    if(sl)sl.classList.toggle('active',i===n);
+  }
+  document.getElementById('therm-fill').style.height=heights[n]+'%';
+  document.getElementById('therm-label').textContent=n;
+}
+
+function tally(n,d){
+  counts[n-1]=Math.max(0,counts[n-1]+d);
+  document.getElementById('cnt'+n).textContent=counts[n-1];
+  updateSummary();
+  updateThermFromTally();
+}
+
+function updateThermFromTally(){
+  var total=counts.reduce(function(a,b){return a+b;},0);
+  if(total===0){document.getElementById('therm-fill').style.height='0%';document.getElementById('therm-label').textContent='—';return;}
+  var avg=counts.reduce(function(a,c,i){return a+c*(i+1);},0)/total;
+  var pct=heights[1]+(avg-1)/4*(heights[5]-heights[1]);
+  document.getElementById('therm-fill').style.height=Math.round(pct)+'%';
+  document.getElementById('therm-label').textContent=avg.toFixed(1);
+}
+
+function updateSummary(){
+  var total=counts.reduce(function(a,b){return a+b;},0);
+  document.getElementById('total-count').textContent=total;
+  if(total===0){document.getElementById('avg-val').textContent='—';return;}
+  var avg=counts.reduce(function(a,c,i){return a+c*(i+1);},0)/total;
+  document.getElementById('avg-val').textContent=avg.toFixed(1);
+}
+
+function buildResultText(){
+  var fac=document.getElementById('field-facilitadora').value||'(sin nombre)';
+  var fecha=document.getElementById('field-fecha').value||'(sin fecha)';
+  var sede=document.getElementById('field-sede').value||'(sin sede)';
+  var circulo=document.getElementById('field-circulo').value||'(sin número)';
+  var total=counts.reduce(function(a,b){return a+b;},0);
+  var avg=total>0?(counts.reduce(function(a,c,i){return a+c*(i+1);},0)/total).toFixed(1):'—';
+  var lines=[
+    '📊 Termómetro de saberes previos',
+    'Círculo: '+circulo+' | '+sede,
+    'Fecha: '+fecha,
+    'Facilitadora: '+fac,
+    '─────────────────',
+    'Nivel 1 (no conozco nada): '+counts[0],
+    'Nivel 2 (algo he escuchado): '+counts[1],
+    'Nivel 3 (nociones básicas): '+counts[2],
+    'Nivel 4 (conozco bien): '+counts[3],
+    'Nivel 5 (lo enseño): '+counts[4],
+    '─────────────────',
+    'Total participantes: '+total,
+    'Promedio inicial: '+avg
+  ];
+  return lines.join('\n');
+}
+
+function copyResult(){
+  var total=counts.reduce(function(a,b){return a+b;},0);
+  if(total===0){ showToast('Registra al menos una participante primero','error'); return; }
+  var text=buildResultText();
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ showToast('¡Copiado! Pégalo en WhatsApp o donde necesites','success'); });
+  } else {
+    var ta=document.createElement('textarea');
+    ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); showToast('¡Copiado! Pégalo en WhatsApp o donde necesites','success'); }
+    catch(e){ showToast('No se pudo copiar — anota el promedio manualmente','error'); }
+    document.body.removeChild(ta);
+  }
+}
+
+function sendToSheets(){
+  var url=document.getElementById('sheets-url').value.trim()||sheetsUrl;
+  if(!url){ toggleConfig(); showToast('Primero ingresa la URL de tu script','error'); return; }
+  var total=counts.reduce(function(a,b){return a+b;},0);
+  if(total===0){ showToast('Registra al menos una participante primero','error'); return; }
+  var fac=document.getElementById('field-facilitadora').value||'';
+  var fecha=document.getElementById('field-fecha').value||'';
+  var sede=document.getElementById('field-sede').value||'';
+  var circulo=document.getElementById('field-circulo').value||'';
+  var avg=total>0?(counts.reduce(function(a,c,i){return a+c*(i+1);},0)/total).toFixed(2):'';
+  var btn=document.getElementById('btn-sheets-send');
+  btn.disabled=true; btn.textContent='Enviando…';
+  var params=new URLSearchParams({
+    facilitadora:fac, fecha:fecha, sede:sede, circulo:circulo,
+    n1:counts[0], n2:counts[1], n3:counts[2], n4:counts[3], n5:counts[4],
+    total:total, promedio:avg
+  });
+  fetch(url+'?'+params.toString())
+    .then(function(r){ return r.text(); })
+    .then(function(){ showToast('¡Guardado en Google Sheets!','success'); btn.disabled=false; btn.textContent='📊 Guardar en Sheets'; })
+    .catch(function(){ showToast('Error al guardar — verifica la URL del script','error'); btn.disabled=false; btn.textContent='📊 Guardar en Sheets'; });
+}
+
+function toggleConfig(){
+  var c=document.getElementById('sheets-config');
+  c.classList.toggle('open');
+  var el=document.getElementById('sheets-url');
+  if(el && sheetsUrl) el.value=sheetsUrl;
+}
+
+function saveConfig(){
+  var url=document.getElementById('sheets-url').value.trim();
+  if(!url){ showToast('Ingresa una URL válida','error'); return; }
+  sheetsUrl=url;
+  try{ localStorage.setItem('termometro_sheets_url', url); } catch(e){}
+  document.getElementById('sheets-config').classList.remove('open');
+  showToast('URL guardada','success');
+}
+
+function resetTally(){
+  counts=[0,0,0,0,0];
+  for(var i=1;i<=5;i++) document.getElementById('cnt'+i).textContent='0';
+  document.getElementById('total-count').textContent='0';
+  document.getElementById('avg-val').textContent='—';
+  document.getElementById('therm-fill').style.height='0%';
+  document.getElementById('therm-label').textContent='—';
+}
+
+function setMode(m){
+  mode=m;
+  ['individual','screen','registro'].forEach(function(k){
+    document.getElementById('btn-'+k).classList.toggle('active',k===m);
+  });
+  var reg=document.getElementById('register-section');
+  var lp=document.getElementById('levels-panel');
+  var sl=document.getElementById('screen-labels');
+  var div=document.getElementById('divider');
+  if(m==='registro'){reg.style.display='block';lp.style.display='none';sl.style.display='none';div.style.display='block';}
+  else if(m==='screen'){reg.style.display='none';lp.style.display='none';sl.style.display='flex';div.style.display='none';}
+  else{reg.style.display='none';lp.style.display='grid';sl.style.display='none';div.style.display='block';}
+}
+
+// Fecha de hoy por defecto
+document.addEventListener('DOMContentLoaded', function(){
+  var hoy=new Date().toISOString().split('T')[0];
+  var fd=document.getElementById('field-fecha');
+  if(fd) fd.value=hoy;
+  var su=document.getElementById('sheets-url');
+  if(su && sheetsUrl) su.value=sheetsUrl;
+});
+</script>
+</body>
+</html>

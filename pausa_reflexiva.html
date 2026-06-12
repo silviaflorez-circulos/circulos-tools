@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pausa reflexiva — ¿Qué aprendimos en el camino?</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #f9f7f4; color: #1a1a1a; min-height: 100vh; }
+.container { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+/* Header */
+.header { margin-bottom: 1.25rem; }
+.header h1 { font-size: 17px; font-weight: 500; color: #1a1a1a; }
+.header .sub { font-size: 13px; color: #888; margin-top: 3px; }
+.meta-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: #fff3ec; color: #c0520f; border: 1px solid #f5cba7; }
+
+/* Tabs */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid #e5e5e5; margin-bottom: 1.25rem; }
+.tab { font-size: 13px; padding: 8px 14px; border: none; background: transparent; color: #888; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: inherit; transition: all 0.15s; }
+.tab.active { color: #E8651A; border-bottom-color: #E8651A; font-weight: 500; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Instrucciones */
+.instruction-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+.instruction-card h3 { font-size: 13px; font-weight: 500; color: #1a1a1a; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.instruction-card p { font-size: 13px; color: #555; line-height: 1.6; }
+.instruction-card ul { font-size: 13px; color: #555; line-height: 1.8; padding-left: 16px; }
+.instruction-card li { margin-bottom: 2px; }
+
+.alert-card { background: #fff8f0; border: 1px solid #f5cba7; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+.alert-card h3 { font-size: 13px; font-weight: 500; color: #c0520f; margin-bottom: 8px; }
+.alert-card p { font-size: 13px; color: #7a4010; line-height: 1.6; }
+
+.step-list { counter-reset: steps; }
+.step-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+.step-num { width: 24px; height: 24px; border-radius: 50%; background: #E8651A; color: #fff; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step-text { font-size: 13px; color: #555; line-height: 1.6; flex: 1; }
+.step-text strong { color: #1a1a1a; font-weight: 500; }
+
+.chat-bubble { background: #e9f5ff; border-radius: 0 10px 10px 10px; padding: 10px 14px; margin: 8px 0; font-size: 13px; color: #1a1a1a; line-height: 1.5; position: relative; border: 1px solid #c8e0f5; }
+.chat-bubble::before { content: 'Facilitadora escribe en el chat:'; display: block; font-size: 11px; color: #5a8db0; margin-bottom: 5px; font-weight: 500; }
+.chat-bubble.copy-btn-wrap { cursor: pointer; }
+.copy-tag { font-size: 11px; color: #5a8db0; margin-top: 6px; display: block; }
+
+.tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; margin-left: 6px; }
+.tag-2a { background: #e8f4e8; color: #2d7a2d; }
+.tag-22a { background: #e8eef8; color: #2d4d9a; }
+
+/* Registro */
+.session-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.session-fields input, .session-fields select {
+  width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 8px;
+  font-size: 13px; font-family: inherit; background: #fff; color: #1a1a1a;
+}
+.session-fields input:focus, .session-fields select:focus { outline: none; border-color: #E8651A; }
+.session-fields input::placeholder { color: #bbb; }
+
+.q-block { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+.q-header { padding: 10px 14px; background: #fafafa; border-bottom: 1px solid #e5e5e5; display: flex; align-items: center; gap: 8px; }
+.q-num { width: 22px; height: 22px; border-radius: 50%; background: #E8651A; color: #fff; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.q-title { font-size: 13px; color: #1a1a1a; flex: 1; line-height: 1.4; }
+.q-body { padding: 10px 14px; }
+.q-body textarea { width: 100%; border: 1px solid #e5e5e5; border-radius: 8px; padding: 8px 10px; font-size: 13px; font-family: inherit; color: #1a1a1a; resize: vertical; min-height: 64px; background: #fff; }
+.q-body textarea:focus { outline: none; border-color: #E8651A; }
+.q-body textarea::placeholder { color: #bbb; }
+.q-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.q-tag-btn { font-size: 11px; padding: 3px 10px; border: 1px solid #ddd; border-radius: 20px; background: transparent; color: #888; cursor: pointer; font-family: inherit; transition: all 0.12s; }
+.q-tag-btn:hover { background: #f5f5f5; }
+.q-tag-btn.active-sabe { background: #e8f4e8; border-color: #5aab5a; color: #2d7a2d; }
+.q-tag-btn.active-aplica { background: #e8eef8; border-color: #5a7fd4; color: #2d4d9a; }
+.q-tag-btn.active-duda { background: #fdf0e0; border-bottom-color: #e8a030; border-color: #e8a030; color: #7a4010; }
+.tag-hint { font-size: 11px; color: #aaa; margin-top: 6px; }
+
+.divider { height: 1px; background: #eee; margin: 1rem 0; }
+
+.action-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.btn-copy { flex: 1; min-width: 140px; padding: 10px 14px; border: 1px solid #E8651A; border-radius: 8px; background: #fff; color: #E8651A; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.btn-copy:hover { background: #FFF3EC; }
+.btn-sheets { flex: 1; min-width: 140px; padding: 10px 14px; border: none; border-radius: 8px; background: #E8651A; color: #fff; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.btn-sheets:hover { background: #d4580f; }
+.btn-sheets:disabled { background: #ccc; cursor: not-allowed; }
+.reset-btn { font-size: 12px; color: #aaa; background: none; border: none; cursor: pointer; text-decoration: underline; margin-top: 10px; display: block; font-family: inherit; }
+.config-toggle { font-size: 12px; color: #aaa; background: none; border: none; cursor: pointer; text-decoration: underline; font-family: inherit; }
+
+.sheets-config { margin-top: 12px; padding: 12px 14px; background: #fff8f0; border: 1px solid #f5cba7; border-radius: 10px; display: none; }
+.sheets-config.open { display: block; }
+.sheets-config label { font-size: 12px; color: #666; display: block; margin-bottom: 5px; }
+.sheets-config input { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 12px; font-family: inherit; }
+.sheets-config input:focus { outline: none; border-color: #E8651A; }
+.config-hint { font-size: 11px; color: #aaa; margin-top: 5px; line-height: 1.5; }
+.btn-save-config { margin-top: 8px; padding: 6px 14px; border: 1px solid #E8651A; border-radius: 6px; background: transparent; color: #E8651A; font-size: 12px; cursor: pointer; font-family: inherit; }
+
+/* Toast */
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 13px; transition: transform 0.3s; z-index: 999; white-space: nowrap; max-width: 90vw; text-align: center; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.error { background: #c0392b; }
+.toast.success { background: #27ae60; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>Pausa reflexiva — ¿Qué aprendimos en el camino?</h1>
+    <div class="sub">Instrumento 2 del protocolo de evaluación</div>
+    <div class="meta-row">
+      <span class="badge">Al cierre del 2° momento</span>
+      <span class="badge">8 minutos</span>
+      <span class="badge">Indicador 2A · 2.2A</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('instrucciones')">Instrucciones</button>
+    <button class="tab" onclick="showTab('meet')">Cómo usarlo en Meet</button>
+    <button class="tab" onclick="showTab('registro')">Registro</button>
+  </div>
+
+  <!-- TAB 1: INSTRUCCIONES -->
+  <div class="tab-content active" id="tab-instrucciones">
+
+    <div class="alert-card">
+      <h3>🔴 Graba la sesión antes de empezar</h3>
+      <p>La grabación es la evidencia más completa de este instrumento. Antes de lanzar la primera pregunta, activa la grabación en Meet: <strong>tres puntos (⋮) → Grabar reunión</strong>. Esto respalda la relatoría y sirve como evidencia directa para el reporte del indicador 2A, incluso si no alcanzas a tomar notas detalladas durante la sesión.</p>
+    </div>
+
+    <div class="instruction-card">
+      <h3>¿Para qué sirve esta pausa?</h3>
+      <p>Integra aprendizaje y evaluación en un solo momento. Las participantes no la viven como un examen porque responden sobre lo que <em>ellas mismas</em> aprendieron, no sobre lo que "debían" aprender. La facilitadora documenta las respuestas en la relatoría con etiquetas que alimentan directamente el reporte del indicador 2A.</p>
+    </div>
+
+    <div class="instruction-card">
+      <h3>Tres formas de recolectar las respuestas</h3>
+      <ul>
+        <li><strong>Chat de Meet (recomendado):</strong> lanzas cada pregunta en el chat y las participantes responden escribiendo. El chat queda como registro visual — solo toma captura de pantalla al final.</li>
+        <li><strong>Oral con co-facilitadora:</strong> una facilita, la otra anota en el Registro (pestaña al lado). Si estás sola, usa el chat.</li>
+        <li><strong>Voz en sesión presencial:</strong> una persona anota mientras el grupo habla. Usa la pestaña Registro para documentar.</li>
+      </ul>
+    </div>
+
+    <div class="instruction-card">
+      <h3>Etiquetas para la relatoría</h3>
+      <p>Al registrar cada respuesta usa estas tres etiquetas. En la pestaña Registro las encuentras como botones:</p>
+      <ul>
+        <li><strong>[SABE]</strong> — la participante demuestra que comprendió el concepto</li>
+        <li><strong>[APLICA]</strong> — conecta el aprendizaje con su organización o práctica real</li>
+        <li><strong>[DUDA]</strong> — expresa una pregunta, confusión o vacío — anótala, es insumo para la siguiente sesión</li>
+      </ul>
+      <p style="margin-top:8px">Una misma respuesta puede tener más de una etiqueta.</p>
+    </div>
+
+    <div class="instruction-card">
+      <h3>Qué hacer con el registro después</h3>
+      <ul>
+        <li>Copia o guarda en Sheets antes de cerrar el archivo.</li>
+        <li>Pega el texto copiado en el documento de relatoría del círculo.</li>
+        <li>Las respuestas [APLICA] son evidencia directa del indicador 2A — asegúrate de que queden en la relatoría con esa etiqueta visible.</li>
+        <li>Las respuestas [DUDA] las llevas al inicio del siguiente círculo como punto de retoma.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- TAB 2: MEET -->
+  <div class="tab-content" id="tab-meet">
+
+    <div class="alert-card">
+      <h3>🔴 Antes de la pausa: activa la grabación</h3>
+      <p>Ve a los <strong>tres puntos (⋮)</strong> en la barra inferior de Meet → <strong>Grabar reunión</strong>. Aparece un aviso a todas las participantes — explícales: <em>"Vamos a grabar estos minutos para tener memoria de lo que aprendimos juntas. La grabación es solo para nuestro equipo."</em> La grabación queda guardada en tu Google Drive automáticamente al terminar la reunión.</p>
+    </div>
+
+    <div class="instruction-card">
+      <h3>Cómo lanzar las preguntas por el chat de Meet</h3>
+      <p style="margin-bottom:10px">Copia cada mensaje de abajo y pégalo en el chat de Meet. Las participantes responden escribiendo en el mismo chat. Tú tomas captura de pantalla del chat al final — ese es tu registro.</p>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-text">Abre el chat de Meet tocando el ícono de mensaje en la barra inferior.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-text">Di en voz alta: <strong>"Vamos a hacer una pausa. Les voy a mandar una pregunta por el chat. Pueden responder escribiendo o en voz alta, como prefieran."</strong></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-text">Copia y pega cada mensaje en el chat, una pregunta a la vez. Espera 60–90 segundos antes de pasar a la siguiente.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-text">Al terminar las 4 preguntas, toma <strong>captura de pantalla del chat completo</strong>. Ese es tu registro principal.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-text">Si tienes tiempo, completa también la pestaña Registro con lo más significativo y guárdalo.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instruction-card">
+      <h3>Mensajes listos para copiar al chat de Meet</h3>
+      <p style="font-size:12px; color:#aaa; margin-bottom:10px">Toca cada burbuja para copiar el texto</p>
+
+      <div class="chat-bubble copy-btn-wrap" onclick="copyChat(this, '🗣️ PREGUNTA 1 de 4\n\n¿Qué diferencia hay entre un proyecto y una actividad aislada?\n\nEscriban su respuesta aquí en el chat 👇')">
+        <strong>🗣️ PREGUNTA 1 de 4</strong><br><br>
+        ¿Qué diferencia hay entre un proyecto y una actividad aislada?<br><br>
+        Escriban su respuesta aquí en el chat 👇
+        <span class="copy-tag">Toca para copiar</span>
+      </div>
+
+      <div class="chat-bubble copy-btn-wrap" onclick="copyChat(this, '🗣️ PREGUNTA 2 de 4\n\n¿Qué es lo primero que revisan en una convocatoria y por qué?\n\nEscriban aquí 👇')">
+        <strong>🗣️ PREGUNTA 2 de 4</strong><br><br>
+        ¿Qué es lo primero que revisan en una convocatoria y por qué?<br><br>
+        Escriban aquí 👇
+        <span class="copy-tag">Toca para copiar</span>
+      </div>
+
+      <div class="chat-bubble copy-btn-wrap" onclick="copyChat(this, '🗣️ PREGUNTA 3 de 4\n\n¿Qué parte de la estructura de un proyecto les parece más difícil de formular?\n\nEscriban aquí 👇')">
+        <strong>🗣️ PREGUNTA 3 de 4</strong><br><br>
+        ¿Qué parte de la estructura de un proyecto les parece más difícil de formular?<br><br>
+        Escriban aquí 👇
+        <span class="copy-tag">Toca para copiar</span>
+      </div>
+
+      <div class="chat-bubble copy-btn-wrap" onclick="copyChat(this, '🗣️ PREGUNTA 4 de 4\n\n¿Para qué le serviría a su organización tener una base de datos de fuentes de financiación?\n\nEscriban aquí 👇')">
+        <strong>🗣️ PREGUNTA 4 de 4</strong><br><br>
+        ¿Para qué le serviría a su organización tener una base de datos de fuentes de financiación?<br><br>
+        Escriban aquí 👇
+        <span class="copy-tag">Toca para copiar</span>
+      </div>
+
+    </div>
+
+    <div class="instruction-card">
+      <h3>Si las participantes no saben escribir en el chat</h3>
+      <ul>
+        <li>Lee la pregunta en voz alta después de enviarla por el chat.</li>
+        <li>Invita a responder con el micrófono: <em>"¿Quién quiere responder de voz?"</em></li>
+        <li>La co-facilitadora (o tú misma, en pausa) anota la respuesta en la pestaña Registro.</li>
+        <li>La grabación captura todo de todas formas.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- TAB 3: REGISTRO -->
+  <div class="tab-content" id="tab-registro">
+
+    <div class="session-fields">
+      <input type="text" id="field-facilitadora" placeholder="Tu nombre" />
+      <input type="date" id="field-fecha" />
+      <select id="field-sede">
+        <option value="">Sede…</option>
+        <option value="Quibdó">Quibdó</option>
+        <option value="Tumaco">Tumaco</option>
+      </select>
+      <input type="text" id="field-circulo" placeholder="Nº o nombre del círculo" />
+    </div>
+
+    <!-- Pregunta 1 -->
+    <div class="q-block">
+      <div class="q-header">
+        <div class="q-num">1</div>
+        <div class="q-title">¿Qué diferencia hay entre un proyecto y una actividad aislada? <span class="tag tag-2a">2A</span></div>
+      </div>
+      <div class="q-body">
+        <textarea id="resp1" placeholder="Anota las respuestas más significativas del grupo…"></textarea>
+        <div class="q-tags">
+          <button class="q-tag-btn" onclick="toggleTag(this,'sabe','resp1-tags')">[SABE]</button>
+          <button class="q-tag-btn" onclick="toggleTag(this,'aplica','resp1-tags')">[APLICA]</button>
+          <button class="q-tag-btn" onclick="toggleTag(this,'duda','resp1-tags')">[DUDA]</button>
+        </div>
+        <input type="hidden" id="resp1-tags" value="" />
+        <div class="tag-hint">Marca la(s) etiqueta(s) que mejor describen las respuestas del grupo</div>
+      </div>
+    </div>
+
+    <!-- Pregunta 2 -->
+    <div class="q-block">
+      <div class="q-header">
+        <div class="q-num">2</div>
+        <div class="q-title">¿Qué es lo primero que revisan en una convocatoria y por qué? <span class="tag tag-2a">2A</span> <span class="tag tag-22a">2.2A</span></div>
+      </div>
+      <div class="q-body">
+        <textarea id="resp2" placeholder="Anota las respuestas más significativas del grupo…"></textarea>
+        <div class="q-tags">
+          <button class="q-tag-btn" onclick="toggleTag(this,'sabe','resp2-tags')">[SABE]</button>
+          <button class="q-tag-btn" onclick="toggleTag(this,'aplica','resp2-tags')">[APLICA]</button>
+          <button class="q-tag-btn" onclick="toggleTag(this,'duda','resp2-tags')">[DUDA]</button>
+        </div>
+        <input type="hidden" id="resp2-tags" value="" />
+        <div class="tag-hint">Marca la(s) etiqueta(s) que mejor describen las respuestas del grupo</div>
+      </div>
+    </div>
+
+    <!-- Pregunta 3 -->
+    <div class="q-block">
+      <div class="q-header">
+        <div class="q-num">3</div>
+        <div class="q-title">¿Qué parte del proyecto les parece más difícil de formular? <span class="tag tag-2a">2A</span></div>
+      </div>
+      <div class="q-body">
+        <textarea id="resp3" placeholder="Anota las respuestas más significativas del grupo…"></textarea>
+        <div class="q-tags">
+          <button class="q-tag-btn" onclick="toggleTag(this,'sabe','resp3-tags')">[SABE]</button>
+          <button class="q-tag-btn" onclick="toggleTag(this,'aplica','resp3-tags')">[APLICA]</button>
+          <button class="q-tag-btn" onclick="toggleTag(this,'duda','resp3-tags')">[DUDA]</button>
+        </div>
+        <input type="hidden" id="resp3-tags" value="" />
+        <div class="tag-hint">Marca la(s) etiqueta(s) que mejor describen las respuestas del grupo</div>
+      </div>
+    </div>
+
+    <!-- Pregunta 4 -->
+    <div class="q-block">
+      <div class="q-header">
+        <div class="q-num">4</div>
+        <div class="q-title">¿Para qué le serviría a su org. una base de datos de fuentes? <span class="tag tag-22a">2.2A</span></div>
+      </div>
+      <div class="q-body">
+        <textarea id="resp4" placeholder="Anota las respuestas más significativas del grupo…"></textarea>
+        <div class="q-tags">
+          <button class="q-tag-btn" onclick="toggleTag(this,'sabe','resp4-tags')">[SABE]</button>
+          <button class="q-tag-btn" onclick="toggleTag(this,'aplica','resp4-tags')">[APLICA]</button>
+          <button class="q-tag-btn" onclick="toggleTag(this,'duda','resp4-tags')">[DUDA]</button>
+        </div>
+        <input type="hidden" id="resp4-tags" value="" />
+        <div class="tag-hint">Marca la(s) etiqueta(s) que mejor describen las respuestas del grupo</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="action-btns">
+      <button class="btn-copy" onclick="copyResult()">📋 Copiar para relatoría</button>
+      <button class="btn-sheets" onclick="sendToSheets()" id="btn-sheets-send">📊 Guardar en Sheets</button>
+    </div>
+
+    <div id="sheets-config" class="sheets-config">
+      <label>URL del script de Google Sheets</label>
+      <input type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/..." />
+      <p class="config-hint">Misma URL que configuraste en el termómetro — si ya la guardaste allá, ingrésala aquí también una sola vez.</p>
+      <button class="btn-save-config" onclick="saveConfig()">Guardar URL</button>
+    </div>
+
+    <div style="margin-top:10px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+      <button class="reset-btn" onclick="resetForm()">Limpiar formulario</button>
+      <button class="config-toggle" onclick="toggleConfig()">⚙️ Configurar Sheets</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var sheetsUrl = 'https://script.google.com/macros/s/AKfycbzyu-uRpKyvCkRg9vJvV8LRvgsAuO9TnLFEDHxIASO9c-1oddB_JEFSnNnkoi3oZaqc/exec';
+try { sheetsUrl = localStorage.getItem('pausa_sheets_url') || sheetsUrl; } catch(e){}
+
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('tab-'+name).classList.add('active');
+  var tabs = document.querySelectorAll('.tab');
+  var map = {instrucciones:0, meet:1, registro:2};
+  tabs[map[name]].classList.add('active');
+}
+
+function toggleTag(btn, type, hiddenId) {
+  var classMap = {sabe:'active-sabe', aplica:'active-aplica', duda:'active-duda'};
+  var cls = classMap[type];
+  btn.classList.toggle(cls);
+  var hidden = document.getElementById(hiddenId);
+  var tags = hidden.value ? hidden.value.split(',') : [];
+  var label = '['+type.toUpperCase()+']';
+  var idx = tags.indexOf(label);
+  if(idx > -1) tags.splice(idx,1); else tags.push(label);
+  hidden.value = tags.filter(Boolean).join(',');
+}
+
+function copyChat(el, text) {
+  if(navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function(){ showToast('Copiado — pégalo en el chat de Meet','success'); });
+  } else {
+    var ta=document.createElement('textarea');
+    ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); showToast('Copiado — pégalo en el chat de Meet','success'); }
+    catch(e){ showToast('No se pudo copiar automáticamente','error'); }
+    document.body.removeChild(ta);
+  }
+}
+
+function buildText() {
+  var fac = document.getElementById('field-facilitadora').value || '(sin nombre)';
+  var fecha = document.getElementById('field-fecha').value || '(sin fecha)';
+  var sede = document.getElementById('field-sede').value || '(sin sede)';
+  var circ = document.getElementById('field-circulo').value || '(sin número)';
+  var questions = [
+    '¿Qué diferencia hay entre un proyecto y una actividad aislada?',
+    '¿Qué es lo primero que revisan en una convocatoria y por qué?',
+    '¿Qué parte del proyecto les parece más difícil de formular?',
+    '¿Para qué le serviría a su organización una base de datos de fuentes de financiación?'
+  ];
+  var lines = [
+    '📋 PAUSA REFLEXIVA — Registro de respuestas',
+    'Círculo: '+circ+' | '+sede,
+    'Fecha: '+fecha+' | Facilitadora: '+fac,
+    '──────────────────────────────'
+  ];
+  for(var i=1;i<=4;i++){
+    var resp = document.getElementById('resp'+i).value.trim();
+    var tags = document.getElementById('resp'+i+'-tags').value;
+    lines.push('');
+    lines.push('P'+i+'. '+questions[i-1]);
+    lines.push('Respuestas: '+(resp||'(sin registro)'));
+    if(tags) lines.push('Etiquetas: '+tags);
+  }
+  lines.push('');
+  lines.push('──────────────────────────────');
+  return lines.join('\n');
+}
+
+function copyResult() {
+  var text = buildText();
+  if(navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function(){ showToast('Copiado — pégalo en la relatoría','success'); });
+  } else {
+    var ta=document.createElement('textarea');
+    ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); showToast('Copiado — pégalo en la relatoría','success'); }
+    catch(e){ showToast('No se pudo copiar','error'); }
+    document.body.removeChild(ta);
+  }
+}
+
+function sendToSheets() {
+  var url = document.getElementById('sheets-url').value.trim() || sheetsUrl;
+  if(!url){ toggleConfig(); showToast('Primero ingresa la URL del script','error'); return; }
+  var fac=document.getElementById('field-facilitadora').value||'';
+  var fecha=document.getElementById('field-fecha').value||'';
+  var sede=document.getElementById('field-sede').value||'';
+  var circ=document.getElementById('field-circulo').value||'';
+  var btn=document.getElementById('btn-sheets-send');
+  btn.disabled=true; btn.textContent='Enviando…';
+  var params = new URLSearchParams({
+    instrumento:'pausa_reflexiva',
+    facilitadora:fac, fecha:fecha, sede:sede, circulo:circ,
+    resp1:document.getElementById('resp1').value,
+    tags1:document.getElementById('resp1-tags').value,
+    resp2:document.getElementById('resp2').value,
+    tags2:document.getElementById('resp2-tags').value,
+    resp3:document.getElementById('resp3').value,
+    tags3:document.getElementById('resp3-tags').value,
+    resp4:document.getElementById('resp4').value,
+    tags4:document.getElementById('resp4-tags').value
+  });
+  fetch(url+'?'+params.toString())
+    .then(function(r){ return r.text(); })
+    .then(function(){ showToast('¡Guardado en Google Sheets!','success'); btn.disabled=false; btn.textContent='📊 Guardar en Sheets'; })
+    .catch(function(){ showToast('Error al guardar — verifica la URL','error'); btn.disabled=false; btn.textContent='📊 Guardar en Sheets'; });
+}
+
+function toggleConfig() {
+  var c=document.getElementById('sheets-config');
+  c.classList.toggle('open');
+  var el=document.getElementById('sheets-url');
+  if(el && sheetsUrl) el.value=sheetsUrl;
+}
+
+function saveConfig() {
+  var url=document.getElementById('sheets-url').value.trim();
+  if(!url){ showToast('Ingresa una URL válida','error'); return; }
+  sheetsUrl=url;
+  try{ localStorage.setItem('pausa_sheets_url', url); } catch(e){}
+  document.getElementById('sheets-config').classList.remove('open');
+  showToast('URL guardada','success');
+}
+
+function resetForm() {
+  for(var i=1;i<=4;i++){
+    document.getElementById('resp'+i).value='';
+    document.getElementById('resp'+i+'-tags').value='';
+    var btns=document.querySelectorAll('.q-block:nth-child('+(i+1)+') .q-tag-btn');
+    btns.forEach(function(b){ b.className='q-tag-btn'; });
+  }
+  showToast('Formulario limpiado','');
+}
+
+function showToast(msg, type) {
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast '+(type||'');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  var hoy=new Date().toISOString().split('T')[0];
+  var fd=document.getElementById('field-fecha');
+  if(fd) fd.value=hoy;
+  var su=document.getElementById('sheets-url');
+  if(su && sheetsUrl) su.value=sheetsUrl;
+});
+</script>
+</body>
+</html>
