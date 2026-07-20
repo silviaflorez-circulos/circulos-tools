@@ -108,7 +108,7 @@ body { font-family: "Courier New", Courier, monospace; background: #f9f7f4; colo
 <div class="toast" id="toast"></div>
 <script>
 var TITULO="Visor de casos — Gestión de riesgos y autoprotección", TABS=["Círculo de protección","Caso — Amenaza digital","Caso — Desgaste colectivo","Línea de tiempo (cierre)"];
-var sheetsUrl = localStorage.getItem('visor_c3_riesgos_url') || '';
+var sheetsUrl = localStorage.getItem('visor_c3_riesgos_url') || 'https://script.google.com/macros/s/AKfycbyq-KwM8xZPLnal1c_5_UWdCDei2ZUiWiJcHyzMjKl7lqkTKgUcPyob9qIViC0DxuQv/exec';
 function showTab(i){
   document.querySelectorAll('.tab-btn').forEach(function(b,j){b.classList.toggle('active',j===i);});
   document.querySelectorAll('.panel').forEach(function(p,j){p.classList.toggle('active',j===i);});
