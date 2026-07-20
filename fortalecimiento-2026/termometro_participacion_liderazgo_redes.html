@@ -328,8 +328,9 @@ function resetTally(){
 
 function setMode(m){
   mode=m;
-  ['individual','screen','registro'].forEach(function(k){
-    document.getElementById('btn-'+k).classList.toggle('active',k===m);
+  ['screen','registro'].forEach(function(k){
+    var b=document.getElementById('btn-'+k);
+    if(b) b.classList.toggle('active',k===m);
   });
   var reg=document.getElementById('register-section');
   var lp=document.getElementById('levels-panel');
