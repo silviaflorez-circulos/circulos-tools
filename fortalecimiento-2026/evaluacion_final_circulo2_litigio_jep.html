@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pausa reflexiva — Círculo 1 (participación, liderazgo y redes)</title>
+<title>Evaluación final — Círculo 2 (litigio estratégico ante la JEP)</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: "Courier New", Courier, monospace; background: #f9f7f4; color: #1a1a1a; min-height: 100vh; }
@@ -49,8 +49,8 @@ body { font-family: "Courier New", Courier, monospace; background: #f9f7f4; colo
 </head>
 <body>
 <div class="container">
-  <div class="topnav"><a href="index.html">◀ Menú</a><a href="termometro_participacion_liderazgo_redes.html">Termómetro</a><span class="navcur">Pausa</span><a href="visor_casos_circulo1_participacion_redes.html">Visor</a><a href="evaluacion_final_circulo1_participacion_redes.html">Evaluación</a></div>
-  <div class="header"><h1>Pausa reflexiva — Círculo 1 (participación, liderazgo y redes)</h1><p>DHefensoras · Actividad 2.1.3 · Instrumento 2</p></div>
+  <div class="topnav"><a href="index.html">◀ Menú</a><a href="termometro_litigio_estrategico.html">Termómetro</a><a href="pausa_reflexiva_circulo2_litigio_jep.html">Pausa</a><a href="visor_casos_circulo2_litigio_jep.html">Visor</a><span class="navcur">Evaluación</span></div>
+  <div class="header"><h1>Evaluación final — Círculo 2 (litigio estratégico ante la JEP)</h1><p>DHefensoras · Actividad 2.1.3 · Instrumento 3</p></div>
 
   <div class="session-fields">
     <input type="text" id="f-grupo" placeholder="Nombre o número del grupo" />
@@ -59,17 +59,19 @@ body { font-family: "Courier New", Courier, monospace; background: #f9f7f4; colo
     <select id="f-sede"><option value="">Sede…</option><option value="Tumaco">Tumaco</option><option value="Quibdó">Quibdó</option></select>
   </div>
 
-  <div class="tabs"><button class="tab-btn active" onclick="showTab(0)" id="tab-0">Pausa reflexiva</button></div>
+  <div class="tabs"><button class="tab-btn active" onclick="showTab(0)" id="tab-0">Evaluación final</button></div>
   <div class="panel active" id="panel-0">
-      <p class="intro">La facilitadora hace las preguntas en voz alta y anota aquí las respuestas más significativas del grupo. Etiqueta cada respuesta al inicio con [SABE], [APLICA] o [DUDA].</p>
-      <div class="caso-box"><p class="cuerpo">Instrumento 2 del protocolo de evaluación. Aporta al Indicador 2A (capacidades organizativas).</p></div>
+      <p class="intro">Se aplica al cierre, junto con el termómetro de salida (ábrelo en el modo Registro grupal, momento Salida). Aporta a los indicadores 2A, 2.2A y 1B.</p>
+      <div class="caso-box"><p class="cuerpo">Instrumento 3 del protocolo. Recuerda hacer también el termómetro de salida para contrastar con la línea de base.</p></div>
       
-      <label class="campo-label">¿Qué diferencia hay entre una red de apoyo y una alianza estratégica?</label>
-      <textarea class="campo" data-tab="0" data-label="¿Qué diferencia hay entre una red de apoyo y una alianza estratégica?" rows="3" placeholder=""></textarea>
-      <label class="campo-label">¿Con qué organizaciones podría DHefensoras postularse a una convocatoria conjunta?</label>
-      <textarea class="campo" data-tab="0" data-label="¿Con qué organizaciones podría DHefensoras postularse a una convocatoria conjunta?" rows="3" placeholder=""></textarea>
-      <label class="campo-label">Otras respuestas o comentarios significativos</label>
-      <textarea class="campo" data-tab="0" data-label="Otras respuestas o comentarios significativos" rows="2" placeholder=""></textarea>
+      <label class="campo-label">Utilidad del círculo: de 1 (nada) a 5 (mucho), ¿qué tan útil fue para su organización? Explique por qué.</label>
+      <textarea class="campo" data-tab="0" data-label="Utilidad del círculo: de 1 (nada) a 5 (mucho), ¿qué tan útil fue para su organización? Explique por qué." rows="3" placeholder=""></textarea>
+      <label class="campo-label">Aplicabilidad: ¿en qué ámbito de su organización aplicaría lo aprendido sobre litigio y acreditación ante la JEP?</label>
+      <textarea class="campo" data-tab="0" data-label="Aplicabilidad: ¿en qué ámbito de su organización aplicaría lo aprendido sobre litigio y acreditación ante la JEP?" rows="3" placeholder=""></textarea>
+      <label class="campo-label">Acción concreta: "Para acompañar la acreditación de otras mujeres ante la JEP, en nuestra organización me comprometo a..."</label>
+      <textarea class="campo" data-tab="0" data-label="Acción concreta: "Para acompañar la acreditación de otras mujeres ante la JEP, en nuestra organización me comprometo a..."" rows="3" placeholder=""></textarea>
+      <label class="campo-label">Una idea clave que se lleva del círculo</label>
+      <textarea class="campo" data-tab="0" data-label="Una idea clave que se lleva del círculo" rows="2" placeholder=""></textarea>
     </div>
 
   <div class="action-btns">
@@ -85,8 +87,8 @@ body { font-family: "Courier New", Courier, monospace; background: #f9f7f4; colo
 </div>
 <div class="toast" id="toast"></div>
 <script>
-var TITULO="Pausa reflexiva — Círculo 1 (participación, liderazgo y redes)", TABS=["Pausa reflexiva"];
-var sheetsUrl = localStorage.getItem('visor_pausa_c1_url') || 'https://script.google.com/macros/s/AKfycbyq-KwM8xZPLnal1c_5_UWdCDei2ZUiWiJcHyzMjKl7lqkTKgUcPyob9qIViC0DxuQv/exec';
+var TITULO="Evaluación final — Círculo 2 (litigio estratégico ante la JEP)", TABS=["Evaluación final"];
+var sheetsUrl = localStorage.getItem('visor_eval_c2_url') || 'https://script.google.com/macros/s/AKfycbyq-KwM8xZPLnal1c_5_UWdCDei2ZUiWiJcHyzMjKl7lqkTKgUcPyob9qIViC0DxuQv/exec';
 function showTab(i){
   document.querySelectorAll('.tab-btn').forEach(function(b,j){b.classList.toggle('active',j===i);});
   document.querySelectorAll('.panel').forEach(function(p,j){p.classList.toggle('active',j===i);});
@@ -129,7 +131,7 @@ function sendToSheets(){
   .catch(function(){showToast('Error al enviar — verifica la URL','error');btn.disabled=false;btn.textContent='Enviar a Sheets';});
 }
 function toggleConfig(){var c=document.getElementById('sheets-config');c.classList.toggle('open');var el=document.getElementById('sheets-url');if(el&&sheetsUrl)el.value=sheetsUrl;}
-function saveConfig(){var u=document.getElementById('sheets-url').value.trim();if(!u){showToast('Ingresa una URL válida','error');return;}sheetsUrl=u;try{localStorage.setItem('visor_pausa_c1_url',u);}catch(e){}document.getElementById('sheets-config').classList.remove('open');showToast('URL guardada','success');}
+function saveConfig(){var u=document.getElementById('sheets-url').value.trim();if(!u){showToast('Ingresa una URL válida','error');return;}sheetsUrl=u;try{localStorage.setItem('visor_eval_c2_url',u);}catch(e){}document.getElementById('sheets-config').classList.remove('open');showToast('URL guardada','success');}
 document.addEventListener('DOMContentLoaded',function(){var f=document.getElementById('f-fecha');if(f)f.value=new Date().toISOString().split('T')[0];var el=document.getElementById('sheets-url');if(el&&sheetsUrl)el.value=sheetsUrl;});
 </script>
 </body>

@@ -8,6 +8,11 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: "Courier New", Courier, monospace; background: #f9f7f4; color: #1a1a1a; min-height: 100vh; }
 .container { max-width: 720px; margin: 0 auto; padding: 1.2rem 1rem 3rem; }
+.topnav { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid #eee; }
+.topnav a, .topnav .navcur { font-family:inherit; font-size:12px; padding:5px 10px; border-radius:8px; text-decoration:none; }
+.topnav a { color:#E8651A; border:1px solid #E8651A; background:#fff; }
+.topnav a:hover { background:#FFF3EC; }
+.topnav .navcur { color:#fff; background:#E8651A; border:1px solid #E8651A; font-weight:700; }
 .header h1 { font-size: 17px; font-weight: 400; text-align:center; }
 .header p { font-size: 12px; color: #888; margin-top: 3px; text-align:center; }
 .session-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:1rem 0; }
@@ -44,6 +49,7 @@ body { font-family: "Courier New", Courier, monospace; background: #f9f7f4; colo
 </head>
 <body>
 <div class="container">
+  <div class="topnav"><a href="index.html">◀ Menú</a><a href="termometro_participacion_liderazgo_redes.html">Termómetro</a><a href="pausa_reflexiva_circulo1_participacion_redes.html">Pausa</a><span class="navcur">Visor</span><a href="evaluacion_final_circulo1_participacion_redes.html">Evaluación</a></div>
   <div class="header"><h1>Visor de casos — Participación, liderazgo y redes</h1><p>Círculo 1 · DHefensoras · Actividad 2.1.3 · Anexo virtual</p></div>
 
   <div class="session-fields">
