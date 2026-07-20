@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pausa reflexiva — Círculo 2 (litigio estratégico ante la JEP)</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Courier New", Courier, monospace; background: #f9f7f4; color: #1a1a1a; min-height: 100vh; }
+.container { max-width: 720px; margin: 0 auto; padding: 1.2rem 1rem 3rem; }
+.header h1 { font-size: 17px; font-weight: 400; text-align:center; }
+.header p { font-size: 12px; color: #888; margin-top: 3px; text-align:center; }
+.session-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:1rem 0; }
+.session-fields input, .session-fields select { width:100%; padding:8px 10px; border:1px solid #ddd; border-radius:8px; font-size:13px; font-family:inherit; background:#fff; }
+.session-fields input:focus, .session-fields select:focus { outline:none; border-color:#E8651A; }
+.tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+.tab-btn { font-family:inherit; font-size:12px; padding:6px 12px; border:1px solid #ddd; border-radius:8px; background:transparent; color:#666; cursor:pointer; }
+.tab-btn.active { background:#fff; color:#1a1a1a; border-color:#E8651A; font-weight:700; }
+.panel { display:none; }
+.panel.active { display:block; }
+.intro { font-size:13px; color:#666; margin-bottom:10px; }
+.caso-box { background:#FFF3EC; border:1px solid #f5cba7; border-radius:10px; padding:12px 14px; margin-bottom:14px; }
+.caso-box p.cuerpo { font-size:14px; line-height:1.5; margin-bottom:10px; }
+.caso-box p.cuerpo:last-child { margin-bottom:0; }
+.campo-label { display:block; font-size:13px; color:#1a1a1a; font-weight:700; margin:10px 0 5px; }
+.campo { width:100%; padding:9px 11px; border:1px solid #ddd; border-radius:8px; font-size:13px; font-family:inherit; background:#fff; resize:vertical; }
+.campo:focus { outline:none; border-color:#E8651A; }
+.action-btns { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+.btn-copy { font-family:inherit; flex:1; min-width:140px; padding:10px 14px; border:1px solid #E8651A; border-radius:8px; background:#fff; color:#E8651A; font-size:13px; font-weight:700; cursor:pointer; }
+.btn-copy:hover { background:#FFF3EC; }
+.btn-sheets { font-family:inherit; flex:1; min-width:140px; padding:10px 14px; border:none; border-radius:8px; background:#E8651A; color:#fff; font-size:13px; font-weight:700; cursor:pointer; }
+.btn-sheets:hover { background:#d4580f; }
+.btn-sheets:disabled { background:#ccc; cursor:not-allowed; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:#1a1a1a; color:#fff; padding:10px 20px; border-radius:20px; font-size:13px; transition:transform .3s; z-index:999; font-family:inherit; }
+.toast.show { transform:translateX(-50%) translateY(0); }
+.toast.error { background:#c0392b; } .toast.success { background:#27ae60; }
+.sheets-config { margin-top:14px; padding:12px 14px; background:#fff8f0; border:1px solid #f5cba7; border-radius:10px; display:none; }
+.sheets-config.open { display:block; }
+.sheets-config label { font-size:12px; color:#666; display:block; margin-bottom:5px; }
+.sheets-config input { width:100%; padding:8px 10px; border:1px solid #ddd; border-radius:8px; font-size:12px; font-family:inherit; }
+.config-toggle { font-family:inherit; font-size:12px; color:#aaa; background:none; border:none; cursor:pointer; text-decoration:underline; margin-top:10px; }
+.btn-save-config { font-family:inherit; margin-top:8px; padding:6px 14px; border:1px solid #E8651A; border-radius:6px; background:transparent; color:#E8651A; font-size:12px; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header"><h1>Pausa reflexiva — Círculo 2 (litigio estratégico ante la JEP)</h1><p>DHefensoras · Actividad 2.1.3 · Instrumento 2</p></div>
+
+  <div class="session-fields">
+    <input type="text" id="f-grupo" placeholder="Nombre o número del grupo" />
+    <input type="text" id="f-facilitadora" placeholder="Facilitadora" />
+    <input type="date" id="f-fecha" />
+    <select id="f-sede"><option value="">Sede…</option><option value="Tumaco">Tumaco</option><option value="Quibdó">Quibdó</option></select>
+  </div>
+
+  <div class="tabs"><button class="tab-btn active" onclick="showTab(0)" id="tab-0">Pausa reflexiva</button></div>
+  <div class="panel active" id="panel-0">
+      <p class="intro">La facilitadora hace las preguntas en voz alta y anota aquí las respuestas más significativas del grupo. Etiqueta cada respuesta al inicio con [SABE], [APLICA] o [DUDA].</p>
+      <div class="caso-box"><p class="cuerpo">Instrumento 2 del protocolo de evaluación. Aporta al Indicador 2A (capacidades organizativas).</p></div>
+      
+      <label class="campo-label">¿Qué derechos tiene una mujer víctima cuando participa ante la JEP?</label>
+      <textarea class="campo" data-tab="0" data-label="¿Qué derechos tiene una mujer víctima cuando participa ante la JEP?" rows="3" placeholder=""></textarea>
+      <label class="campo-label">¿Qué significa que su caso aporte a algo más grande que su situación individual (litigio estratégico)?</label>
+      <textarea class="campo" data-tab="0" data-label="¿Qué significa que su caso aporte a algo más grande que su situación individual (litigio estratégico)?" rows="3" placeholder=""></textarea>
+      <label class="campo-label">Otras respuestas o comentarios significativos</label>
+      <textarea class="campo" data-tab="0" data-label="Otras respuestas o comentarios significativos" rows="2" placeholder=""></textarea>
+    </div>
+
+  <div class="action-btns">
+    <button class="btn-copy" onclick="copyResult()">Copiar notas</button>
+    <button class="btn-sheets" onclick="sendToSheets()" id="btn-send">Enviar a Sheets</button>
+  </div>
+  <button class="config-toggle" onclick="toggleConfig()">Configurar Sheets</button>
+  <div class="sheets-config" id="sheets-config">
+    <label>URL del script de Google Sheets (Apps Script /exec)</label>
+    <input type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/..." />
+    <button class="btn-save-config" onclick="saveConfig()">Guardar URL</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+var TITULO="Pausa reflexiva — Círculo 2 (litigio estratégico ante la JEP)", TABS=["Pausa reflexiva"];
+var sheetsUrl = localStorage.getItem('visor_pausa_c2_url') || 'https://script.google.com/macros/s/AKfycbyq-KwM8xZPLnal1c_5_UWdCDei2ZUiWiJcHyzMjKl7lqkTKgUcPyob9qIViC0DxuQv/exec';
+function showTab(i){
+  document.querySelectorAll('.tab-btn').forEach(function(b,j){b.classList.toggle('active',j===i);});
+  document.querySelectorAll('.panel').forEach(function(p,j){p.classList.toggle('active',j===i);});
+}
+function showToast(m,t){var e=document.getElementById('toast');e.textContent=m;e.className='toast '+(t||'');e.classList.add('show');setTimeout(function(){e.classList.remove('show');},3000);}
+function meta(){
+  return {
+    grupo:(document.getElementById('f-grupo').value||''),
+    facilitadora:(document.getElementById('f-facilitadora').value||''),
+    fecha:(document.getElementById('f-fecha').value||''),
+    sede:(document.getElementById('f-sede').value||'')
+  };
+}
+function collect(){
+  var m=meta(); var lines=[TITULO,'Grupo: '+(m.grupo||'(sin grupo)')+' | '+(m.sede||'')+' | '+(m.fecha||''),'Facilitadora: '+(m.facilitadora||''),'─────────────'];
+  var byTab={};
+  document.querySelectorAll('.campo').forEach(function(c){
+    var t=+c.getAttribute('data-tab'); if(!byTab[t])byTab[t]=[]; byTab[t].push([c.getAttribute('data-label'), c.value.trim()]);
+  });
+  Object.keys(byTab).forEach(function(t){
+    lines.push(''); lines.push('▶ '+TABS[t]);
+    byTab[t].forEach(function(p){ lines.push(p[0]+': '+(p[1]||'(sin respuesta)')); });
+  });
+  return lines.join('\n');
+}
+function copyResult(){
+  var text=collect();
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){showToast('¡Copiado! Pégalo en WhatsApp','success');});}
+  else{var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showToast('¡Copiado!','success');}catch(e){showToast('No se pudo copiar','error');}document.body.removeChild(ta);}
+}
+function sendToSheets(){
+  var url=(document.getElementById('sheets-url').value.trim())||sheetsUrl;
+  if(!url){toggleConfig();showToast('Primero ingresa la URL del script','error');return;}
+  var m=meta();
+  var respuestas={};
+  document.querySelectorAll('.campo').forEach(function(c){ respuestas[TABS[+c.getAttribute('data-tab')]+' | '+c.getAttribute('data-label')]=c.value.trim(); });
+  var btn=document.getElementById('btn-send'); btn.disabled=true; btn.textContent='Enviando…';
+  var params=new URLSearchParams({tipo:'visor_casos', titulo:TITULO, grupo:m.grupo, facilitadora:m.facilitadora, fecha:m.fecha, sede:m.sede, respuestas:JSON.stringify(respuestas)});
+  fetch(url+'?'+params.toString()).then(function(r){return r.text();}).then(function(){showToast('¡Enviado a Sheets!','success');btn.disabled=false;btn.textContent='Enviar a Sheets';})
+  .catch(function(){showToast('Error al enviar — verifica la URL','error');btn.disabled=false;btn.textContent='Enviar a Sheets';});
+}
+function toggleConfig(){var c=document.getElementById('sheets-config');c.classList.toggle('open');var el=document.getElementById('sheets-url');if(el&&sheetsUrl)el.value=sheetsUrl;}
+function saveConfig(){var u=document.getElementById('sheets-url').value.trim();if(!u){showToast('Ingresa una URL válida','error');return;}sheetsUrl=u;try{localStorage.setItem('visor_pausa_c2_url',u);}catch(e){}document.getElementById('sheets-config').classList.remove('open');showToast('URL guardada','success');}
+document.addEventListener('DOMContentLoaded',function(){var f=document.getElementById('f-fecha');if(f)f.value=new Date().toISOString().split('T')[0];var el=document.getElementById('sheets-url');if(el&&sheetsUrl)el.value=sheetsUrl;});
+</script>
+</body>
+</html>
