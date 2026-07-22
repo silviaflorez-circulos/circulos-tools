@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listado de asistencia — Fortalecimiento organizativo</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Courier New", Courier, monospace; background: #f9f7f4; color: #1a1a1a; min-height: 100vh; }
+.container { max-width: 680px; margin: 0 auto; padding: 1.2rem 1rem 3rem; }
+.topnav { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid #eee; }
+.topnav a, .topnav .navcur { font-family:inherit; font-size:12px; padding:5px 10px; border-radius:8px; text-decoration:none; }
+.topnav a { color:#E8651A; border:1px solid #E8651A; background:#fff; }
+.topnav a:hover { background:#FFF3EC; }
+.topnav .navcur { color:#fff; background:#E8651A; border:1px solid #E8651A; font-weight:700; }
+.header h1 { font-size:17px; font-weight:400; text-align:center; }
+.header p { font-size:12px; color:#888; margin-top:3px; text-align:center; }
+.intro { font-size:13px; color:#444; background:#FFF3EC; border:1px solid #f5cba7; border-radius:10px; padding:10px 12px; margin:14px 0; }
+.field { margin-bottom:12px; }
+.field label { display:block; font-size:13px; font-weight:700; margin-bottom:5px; }
+.field input, .field select { width:100%; padding:9px 11px; border:1px solid #ddd; border-radius:8px; font-size:14px; font-family:inherit; background:#fff; color:#1a1a1a; }
+.field input:focus, .field select:focus { outline:none; border-color:#E8651A; }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+#lgbtiq-cual-wrap { display:none; }
+.btns { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+.btn-send { font-family:inherit; flex:1; min-width:180px; padding:12px 14px; border:none; border-radius:8px; background:#E8651A; color:#fff; font-size:14px; font-weight:700; cursor:pointer; }
+.btn-send:hover { background:#d4580f; }
+.btn-send:disabled { background:#ccc; cursor:not-allowed; }
+.counter { text-align:center; font-size:13px; color:#666; margin-top:12px; }
+.counter b { color:#E8651A; font-size:16px; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:#1a1a1a; color:#fff; padding:10px 20px; border-radius:20px; font-size:13px; transition:transform .3s; z-index:999; font-family:inherit; }
+.toast.show { transform:translateX(-50%) translateY(0); }
+.toast.error { background:#c0392b; } .toast.success { background:#27ae60; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topnav"><a href="index.html">◀ Menú</a><span class="navcur">Listado de asistencia</span></div>
+  <div class="header">
+    <h1>Listado de asistencia</h1>
+    <p>Fortalecimiento organizativo DHefensoras — Actividad 2.1.3</p>
+  </div>
+
+  <div class="intro">
+    Cada participante diligencia sus propios datos y pulsa "Registrar participante". La facilitadora comparte este enlace por el chat de Meet o WhatsApp al iniciar. Si alguien no tiene señal, la facilitadora puede registrarla desde su equipo. Todo llega a una sola pestaña "Listado" de la hoja; por fecha y círculo se diferencia cada sesión.
+  </div>
+
+  <div class="row2">
+    <div class="field">
+      <label>Círculo</label>
+      <select id="f-circulo">
+        <option value="Círculo 1 - Participación, liderazgo y redes">Círculo 1 - Participación, liderazgo y redes</option>
+        <option value="Círculo 2 - Litigio estratégico ante la JEP">Círculo 2 - Litigio estratégico ante la JEP</option>
+        <option value="Círculo 3 - Riesgos, seguridad y autoprotección">Círculo 3 - Riesgos, seguridad y autoprotección</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Fecha</label>
+      <input type="date" id="f-fecha" />
+    </div>
+  </div>
+
+  <div class="row2">
+    <div class="field">
+      <label>Municipio de residencia</label>
+      <select id="f-municipio">
+        <option value="">Seleccione…</option>
+        <option value="Quibdó">Quibdó</option>
+        <option value="Tumaco">Tumaco</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Facilitadora (opcional)</label>
+      <input type="text" id="f-facilitadora" placeholder="Solo si registra la facilitadora" />
+    </div>
+  </div>
+
+  <hr style="border:none;border-top:1px solid #eee;margin:6px 0 14px;">
+
+  <div class="field">
+    <label>Nombre completo</label>
+    <input type="text" id="f-nombre" placeholder="Nombres y apellidos" />
+  </div>
+
+  <div class="row2">
+    <div class="field">
+      <label>Edad</label>
+      <input type="number" id="f-edad" min="0" max="120" placeholder="Años" />
+    </div>
+    <div class="field">
+      <label>Documento de identidad</label>
+      <input type="text" id="f-documento" placeholder="Número de documento" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Pertenencia étnica</label>
+    <select id="f-etnia">
+      <option value="">Seleccione…</option>
+      <option value="Indígena">Indígena</option>
+      <option value="Gitano/a o Rrom">Gitano/a o Rrom</option>
+      <option value="Raizal del Archipiélago de San Andrés, Providencia y Santa Catalina">Raizal del Archipiélago de San Andrés, Providencia y Santa Catalina</option>
+      <option value="Palenquero/a de San Basilio">Palenquero/a de San Basilio</option>
+      <option value="Negro/a, afrocolombiano/a, afrodescendiente">Negro/a, afrocolombiano/a, afrodescendiente</option>
+      <option value="Ningún grupo étnico">Ningún grupo étnico</option>
+      <option value="Otro">Otro</option>
+      <option value="Prefiere no responder">Prefiere no responder</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Sexo</label>
+    <select id="f-sexo">
+      <option value="">Seleccione…</option>
+      <option value="Hombre">Hombre</option>
+      <option value="Mujer">Mujer</option>
+      <option value="No binario">No binario</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>¿Se identifica como parte de la población LGBTIQ+?</label>
+    <select id="f-lgbtiq" onchange="toggleLgbtiq()">
+      <option value="">Seleccione…</option>
+      <option value="No">No</option>
+      <option value="Sí">Sí</option>
+    </select>
+  </div>
+
+  <div class="field" id="lgbtiq-cual-wrap">
+    <label>Si es así, ¿con cuál se identifica?</label>
+    <select id="f-lgbtiq-cual">
+      <option value="">Seleccione…</option>
+      <option value="Lesbiana">Lesbiana</option>
+      <option value="Gay">Gay</option>
+      <option value="Bisexual">Bisexual</option>
+      <option value="Transexual">Transexual</option>
+      <option value="Intersexual">Intersexual</option>
+      <option value="Queer">Queer</option>
+      <option value="Pansexual">Pansexual</option>
+      <option value="Otra">Otra</option>
+    </select>
+  </div>
+
+  <div class="btns">
+    <button class="btn-send" id="btn-send" onclick="registrar()">Registrar participante</button>
+  </div>
+  <div class="counter">Registradas en esta sesión: <b id="cuenta">0</b></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyq-KwM8xZPLnal1c_5_UWdCDei2ZUiWiJcHyzMjKl7lqkTKgUcPyob9qIViC0DxuQv/exec';
+var cuenta = 0;
+
+function showToast(m,t){var e=document.getElementById('toast');e.textContent=m;e.className='toast '+(t||'');e.classList.add('show');setTimeout(function(){e.classList.remove('show');},3000);}
+function val(id){return (document.getElementById(id).value||'').trim();}
+function toggleLgbtiq(){
+  var w=document.getElementById('lgbtiq-cual-wrap');
+  w.style.display = (document.getElementById('f-lgbtiq').value==='Sí') ? 'block' : 'none';
+}
+
+function registrar(){
+  var nombre=val('f-nombre');
+  if(!nombre){ showToast('Escribe el nombre completo','error'); return; }
+  var lgbtiq=val('f-lgbtiq');
+  var params=new URLSearchParams({
+    tipo:'listado',
+    circulo:val('f-circulo'),
+    fecha:val('f-fecha'),
+    municipio:val('f-municipio'),
+    nombre:nombre,
+    edad:val('f-edad'),
+    documento:val('f-documento'),
+    etnia:val('f-etnia'),
+    sexo:val('f-sexo'),
+    lgbtiq:lgbtiq,
+    lgbtiq_cual: (lgbtiq==='Sí') ? val('f-lgbtiq-cual') : '',
+    facilitadora:val('f-facilitadora')
+  });
+  var btn=document.getElementById('btn-send'); btn.disabled=true; btn.textContent='Guardando…';
+  fetch(SHEETS_URL+'?'+params.toString())
+    .then(function(r){return r.text();})
+    .then(function(){
+      cuenta++; document.getElementById('cuenta').textContent=cuenta;
+      showToast('¡Participante registrada!','success');
+      // Limpia solo los datos de la persona; conserva círculo, fecha, sede y facilitadora
+      ['f-nombre','f-edad','f-documento'].forEach(function(id){document.getElementById(id).value='';});
+      document.getElementById('f-etnia').value='';
+      document.getElementById('f-sexo').value='';
+      document.getElementById('f-lgbtiq').value='';
+      document.getElementById('f-lgbtiq-cual').value='';
+      toggleLgbtiq();
+      document.getElementById('f-nombre').focus();
+      btn.disabled=false; btn.textContent='Registrar participante';
+    })
+    .catch(function(){ showToast('Error al guardar — verifica el internet','error'); btn.disabled=false; btn.textContent='Registrar participante'; });
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
+  // Preselecciona el círculo si viene ?circulo=1/2/3
+  var p = new URLSearchParams(window.location.search).get('circulo');
+  var sel = document.getElementById('f-circulo');
+  if(p==='1') sel.selectedIndex=0;
+  else if(p==='2') sel.selectedIndex=1;
+  else if(p==='3') sel.selectedIndex=2;
+});
+</script>
+</body>
+</html>
