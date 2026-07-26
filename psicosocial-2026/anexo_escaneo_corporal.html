@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía — Escaneo corporal (activación)</title><style>* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:"Courier New",Courier,monospace; background:#f9f7f4; color:#1a1a1a; min-height:100vh; }
+.container { max-width:720px; margin:0 auto; padding:1.2rem 1rem 3rem; }
+.topnav { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid #eee; }
+.topnav a, .topnav .navcur { font-family:inherit; font-size:12px; padding:5px 10px; border-radius:8px; text-decoration:none; }
+.topnav a { color:#E8651A; border:1px solid #E8651A; background:#fff; }
+.topnav a:hover { background:#FFF3EC; }
+.topnav .navcur { color:#fff; background:#E8651A; border:1px solid #E8651A; font-weight:700; }
+.header h1 { font-size:17px; font-weight:400; text-align:center; }
+.header p { font-size:12px; color:#888; margin-top:3px; text-align:center; }
+.intro { font-size:13px; color:#444; background:#FFF3EC; border:1px solid #f5cba7; border-radius:10px; padding:10px 12px; margin:14px 0; }
+.field { margin-bottom:12px; }
+.field label { display:block; font-size:13px; font-weight:700; margin-bottom:5px; }
+.field input, .field select, .field textarea { width:100%; padding:9px 11px; border:1px solid #ddd; border-radius:8px; font-size:14px; font-family:inherit; background:#fff; color:#1a1a1a; resize:vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline:none; border-color:#E8651A; }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.block { border:1px solid #e5e5e5; border-radius:10px; background:#fff; padding:12px 14px; margin-bottom:12px; }
+.block h3 { font-size:13px; color:#E8651A; margin-bottom:8px; }
+.emo { width:100%; border-collapse:collapse; font-size:12px; }
+.emo th, .emo td { border:1px solid #eee; padding:4px 3px; text-align:center; }
+.emo th { background:#FFF3EC; font-size:11px; }
+.emo td.n { text-align:left; padding-left:6px; }
+.emo input { width:42px; padding:5px 3px; border:1px solid #ddd; border-radius:6px; font-family:inherit; font-size:13px; text-align:center; }
+.opt { display:grid; grid-template-columns:1fr 60px; gap:6px; align-items:center; margin-bottom:6px; }
+.opt input { width:100%; padding:6px; border:1px solid #ddd; border-radius:6px; font-family:inherit; text-align:center; }
+.opt span { font-size:13px; }
+.btns { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+.btn-copy { font-family:inherit; flex:1; min-width:150px; padding:11px 14px; border:1px solid #E8651A; border-radius:8px; background:#fff; color:#E8651A; font-size:13px; font-weight:700; cursor:pointer; }
+.btn-send { font-family:inherit; flex:1; min-width:150px; padding:11px 14px; border:none; border-radius:8px; background:#E8651A; color:#fff; font-size:13px; font-weight:700; cursor:pointer; }
+.btn-send:disabled { background:#ccc; }
+.summary { text-align:center; font-size:13px; color:#666; margin-top:12px; } .summary b { color:#E8651A; font-size:16px; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:#1a1a1a; color:#fff; padding:10px 20px; border-radius:20px; font-size:13px; transition:transform .3s; z-index:999; font-family:inherit; }
+.toast.show { transform:translateX(-50%) translateY(0); }
+.toast.error { background:#c0392b; } .toast.success { background:#27ae60; }
+details summary { cursor:pointer; color:#E8651A; font-size:13px; font-weight:700; }
+.guia { font-size:13px; line-height:1.55; } .guia li { margin:4px 0 4px 18px; }</style></head><body><div class="container"><div class="topnav"><a href="index_psicosocial.html">◀ Menú</a></div>
+<div class="header"><h1>Guía — Escaneo corporal (activación)</h1><p>Actividad 2.1.2 · DHefensoras · guía de consulta</p></div><div class="block"><div class="guia">
+Ejercicio de conciencia corporal para iniciar el círculo. Con los ojos cerrados, la facilitadora guía un recorrido desde los pies hasta la cabeza (dedos, pies, tobillos, rodillas, piernas, cadera, espalda, hombros, brazos, manos, cuello, cabeza), acompañando con estiramientos suaves y preguntando:
+<ul><li>¿Cómo siento esta parte del cuerpo?</li><li>¿Siento frío o calor? ¿Está adormecida? ¿Hay dolor o tensión? ¿Está relajada?</li></ul>
+Al terminar, se abren los ojos lentamente y se conecta con el grupo. <b>Es una experiencia personal: no se registra.</b></div></div></div><div class="toast" id="toast"></div>
+<script>var URL_EXEC="https://script.google.com/macros/s/AKfycbyfFeEhl5t9FrTcPeeoaZsB2Jo-d_iOHvqMuUWLkET3-DXvBH7ggK49Vg-G6z8HeUe7/exec";
+function showToast(m,t){var e=document.getElementById('toast');e.textContent=m;e.className='toast '+(t||'');e.classList.add('show');setTimeout(function(){e.classList.remove('show');},3000);}
+function v(id){var el=document.getElementById(id);return el?(el.value||'').trim():'';}
+document.addEventListener('DOMContentLoaded',function(){var f=document.getElementById('f-fecha');if(f)f.value=new Date().toISOString().split('T')[0];});</script></body></html>
