@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recolección — cuidado de sí y protección</title><style>* { box-sizing:border-box; margin:0; padding:0; }
+<title>Recolección — Redes de apoyo</title><style>* { box-sizing:border-box; margin:0; padding:0; }
 body { font-family:"Courier New",Courier,monospace; background:#f9f7f4; color:#1a1a1a; min-height:100vh; }
 .container { max-width:720px; margin:0 auto; padding:1.2rem 1rem 3rem; }
 .topnav { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid #eee; }
@@ -35,7 +35,7 @@ body { font-family:"Courier New",Courier,monospace; background:#f9f7f4; color:#1
 .toast.error { background:#c0392b; } .toast.success { background:#27ae60; }
 details summary { cursor:pointer; color:#E8651A; font-size:13px; font-weight:700; }
 .guia { font-size:13px; line-height:1.55; } .guia li { margin:4px 0 4px 18px; }</style></head><body><div class="container"><div class="topnav"><a href="index_psicosocial.html">◀ Menú</a><a href="listado_asistencia_ps.html">Listado</a><a href="evaluacion_bienestar_ps.html">Evaluación</a></div>
-<div class="header"><h1>Recolección — cuidado de sí y protección</h1><p>Actividad 2.1.2 · DHefensoras · Círculo 2</p></div><div class="intro">La facilitadora registra, <b>sin nombres</b> y de forma anónima, las conclusiones y las prácticas colectivas del círculo, como evidencia para la relatoría. Solo conclusiones y aportes del grupo, sin datos que identifiquen a nadie.</div>
+<div class="header"><h1>Recolección — Redes de apoyo</h1><p>Actividad 2.1.2 · DHefensoras</p></div><div class="intro">La facilitadora registra, <b>sin nombres</b> y de forma anónima, el mapa colectivo del intercambio de apoyos y sus conclusiones, como insumo del proyecto y evidencia para la relatoría. Solo van resúmenes y conclusiones del grupo, sin datos que identifiquen a nadie.</div>
   <div class="row2">
   <div class="field"><label>Círculo</label><select id="f-circulo"><option value="Círculo - Redes de apoyo y tejido social">Círculo - Redes de apoyo y tejido social</option>
       <option value="Círculo - Apoyo mutuo, cuidado de sí y autoprotección">Círculo - Apoyo mutuo, cuidado de sí y autoprotección</option></select></div>
@@ -44,21 +44,20 @@ details summary { cursor:pointer; color:#E8651A; font-size:13px; font-weight:700
   <div class="field"><label>Sede</label><select id="f-sede"><option value="">Sede…</option><option value="Tumaco">Tumaco</option><option value="Quibdó">Quibdó</option></select></div>
   <div class="field"><label>Facilitadora</label><input type="text" id="f-facilitadora" placeholder="Nombre" /></div></div>
   <div class="field"><label>Grupo (opcional)</label><input type="text" id="f-grupo"></div>
-  <div class="block"><h3>Conclusiones de las conversaciones (anónimas, sin nombres)</h3>
-    <label class="field"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:5px;">Conclusiones sobre el cuidado de sí</span><textarea class="rec" data-label="Conclusiones cuidado de sí" rows="3"></textarea></label>
-    <label class="field"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:5px;">Conclusiones sobre apoyo mutuo y autoprotección</span><textarea class="rec" data-label="Conclusiones apoyo mutuo y autoprotección" rows="3"></textarea></label>
+  <div class="block"><h3>Mapa colectivo de intercambio</h3>
+    <label class="field"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:5px;">Apoyos que el grupo puede OFRECER (tarjetas verdes) — resumen</span><textarea class="rec" data-label="Apoyos que ofrecemos" rows="3"></textarea></label>
+    <label class="field"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:5px;">Apoyos que el grupo NECESITA (tarjetas rosadas) — resumen</span><textarea class="rec" data-label="Apoyos que necesitamos" rows="3"></textarea></label>
+    <label class="field"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:5px;">Necesidades que encontraron respuesta dentro del grupo</span><textarea class="rec" data-label="Necesidades resueltas en el grupo" rows="3"></textarea></label>
   </div>
-  <div class="block"><h3>Prácticas colectivas</h3>
-    <label class="field"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:5px;">Prácticas de cuidado de sí que ya realizan (día a día)</span><textarea class="rec" data-label="Prácticas de cuidado de sí" rows="3"></textarea></label>
-    <label class="field"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:5px;">Prácticas de protección colectiva y apoyo mutuo</span><textarea class="rec" data-label="Protección colectiva y apoyo mutuo" rows="3"></textarea></label>
-    <label class="field"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:5px;">Listado colectivo de prácticas para fortalecer el liderazgo</span><textarea class="rec" data-label="Prácticas para el liderazgo" rows="3"></textarea></label>
-    <label class="field"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:5px;">Frases o conclusiones significativas para la relatoría (anónimas)</span><textarea class="rec" data-label="Frases significativas (anónimas)" rows="3"></textarea></label>
+  <div class="block"><h3>Vacíos e insumos para el proyecto</h3>
+    <label class="field"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:5px;">Necesidades sin resolver que requieren articulación institucional (vacíos de acompañamiento)</span><textarea class="rec" data-label="Vacíos institucionales" rows="3"></textarea></label>
+    <label class="field"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:5px;">Conclusiones y frases significativas del grupo (anónimas)</span><textarea class="rec" data-label="Conclusiones (anónimas)" rows="3"></textarea></label>
   </div>
   <div class="btns"><button class="btn-copy" onclick="copiar()">Copiar</button><button class="btn-send" id="bs" onclick="enviar()">Enviar a Sheets</button></div></div><div class="toast" id="toast"></div>
 <script>var URL_EXEC="https://script.google.com/macros/s/AKfycbyfFeEhl5t9FrTcPeeoaZsB2Jo-d_iOHvqMuUWLkET3-DXvBH7ggK49Vg-G6z8HeUe7/exec";
 function showToast(m,t){var e=document.getElementById('toast');e.textContent=m;e.className='toast '+(t||'');e.classList.add('show');setTimeout(function(){e.classList.remove('show');},3000);}
 function v(id){var el=document.getElementById(id);return el?(el.value||'').trim():'';}
-var TIT='Recolección — cuidado de sí y protección (Círculo 2 psicosocial)';
+var TIT='Recolección — Redes de apoyo (intercambio de apoyos)';
 function recoger(){var o={};document.querySelectorAll('.rec').forEach(function(t){o[t.getAttribute('data-label')]=t.value.trim();});return o;}
 function copiar(){var o=recoger();var s=TIT+'\n';Object.keys(o).forEach(function(k){s+='\n'+k+': '+(o[k]||'(sin respuesta)');});navigator.clipboard&&navigator.clipboard.writeText(s).then(function(){showToast('¡Copiado!','success');});}
 function enviar(){var b=document.getElementById('bs');b.disabled=true;b.textContent='Enviando…';
