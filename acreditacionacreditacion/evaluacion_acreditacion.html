@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluación — Círculo de acreditación</title><style>* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:"Courier New",Courier,monospace; background:#f9f7f4; color:#1a1a1a; min-height:100vh; }
+.container { max-width:720px; margin:0 auto; padding:1.2rem 1rem 3rem; }
+.topnav { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid #eee; }
+.topnav a, .topnav .navcur { font-family:inherit; font-size:12px; padding:5px 10px; border-radius:8px; text-decoration:none; }
+.topnav a { color:#E8651A; border:1px solid #E8651A; background:#fff; }
+.topnav .navcur { color:#fff; background:#E8651A; border:1px solid #E8651A; font-weight:700; }
+.header h1 { font-size:17px; font-weight:400; text-align:center; }
+.header p { font-size:12px; color:#888; margin-top:3px; text-align:center; }
+.intro { font-size:13px; color:#444; background:#FFF3EC; border:1px solid #f5cba7; border-radius:10px; padding:10px 12px; margin:14px 0; }
+.field { margin-bottom:12px; }
+.field label { display:block; font-size:13px; font-weight:700; margin-bottom:5px; }
+.field input, .field select { width:100%; padding:9px 11px; border:1px solid #ddd; border-radius:8px; font-size:14px; font-family:inherit; background:#fff; color:#1a1a1a; }
+.field input:focus, .field select:focus { outline:none; border-color:#E8651A; }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.block { border:1px solid #e5e5e5; border-radius:10px; background:#fff; padding:12px 14px; margin-bottom:14px; }
+.block h3 { font-size:13px; color:#E8651A; margin-bottom:10px; line-height:1.35; }
+.opt { display:grid; grid-template-columns:1fr 68px; gap:8px; align-items:center; margin-bottom:8px; }
+.opt span { font-size:12.5px; line-height:1.3; }
+.opt input { width:100%; padding:7px; border:1px solid #ddd; border-radius:6px; font-family:inherit; text-align:center; font-size:15px; }
+.subtot { font-size:11px; text-align:right; color:#888; }
+.subtot.bad { color:#c0392b; }
+.btns { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+.btn-copy { font-family:inherit; flex:1; min-width:150px; padding:11px 14px; border:1px solid #E8651A; border-radius:8px; background:#fff; color:#E8651A; font-size:13px; font-weight:700; cursor:pointer; }
+.btn-send { font-family:inherit; flex:1; min-width:150px; padding:11px 14px; border:none; border-radius:8px; background:#E8651A; color:#fff; font-size:13px; font-weight:700; cursor:pointer; }
+.btn-send:disabled { background:#ccc; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:#1a1a1a; color:#fff; padding:10px 20px; border-radius:20px; font-size:13px; transition:transform .3s; z-index:999; font-family:inherit; }
+.toast.show { transform:translateX(-50%) translateY(0); }
+.toast.error { background:#c0392b; } .toast.success { background:#27ae60; }</style></head>
+<body><div class="container">
+<div class="topnav"><a href="index_acreditacion.html">◀ Menú</a><span class="navcur">Evaluación</span><a href="listado_asistencia_acreditacion.html">Listado</a></div>
+<div class="header"><h1>Evaluación — Círculo de acreditación</h1><p>Outcome 1 · Actividad 1.1.1 · DHefensoras · conteo grupal</p></div>
+<div class="intro">Lo llena la <b>facilitadora</b>. Lee cada pregunta en voz alta; las participantes responden por el chat con la letra o levantando la mano. Escribe cuántas eligieron cada opción. Es anónimo. Mismas preguntas que Quibdó, para poder comparar. Alimenta el Indicador 1A.</div>
+
+<div class="row2">
+  <div class="field"><label>Sede</label><input type="text" id="f-sede" value="Tumaco"></div>
+  <div class="field"><label>Fecha</label><input type="date" id="f-fecha"></div>
+</div>
+<div class="row2">
+  <div class="field"><label>Facilitador/a</label><input type="text" id="f-facilitadora" placeholder="Nombre"></div>
+  <div class="field"><label>Total de participantes</label><input type="number" id="f-total" min="0" oninput="checkAll()"></div>
+</div>
+
+<div class="block"><h3>1. Después de este círculo, ¿queda claro que tu participación en el Macrocaso 11 de la JEP corresponde a un rol como interviniente especial en búsqueda de la verdad y la justicia?</h3>
+  <div class="opt"><span>a) Sí, completamente</span><input type="number" min="0" id="p1a" oninput="st(1)"></div>
+  <div class="opt"><span>b) Sí, en parte</span><input type="number" min="0" id="p1b" oninput="st(1)"></div>
+  <div class="opt"><span>c) No estoy segura</span><input type="number" min="0" id="p1c" oninput="st(1)"></div>
+  <div class="opt"><span>d) No, no lo creo</span><input type="number" min="0" id="p1d" oninput="st(1)"></div>
+  <div class="subtot" id="s1"></div></div>
+
+<div class="block"><h3>2. ¿Qué derecho de la justicia restaurativa reconoces en el marco de la participación con la JEP?</h3>
+  <div class="opt"><span>a) Participar: aportar pruebas, asistir a diligencias, interponer recursos</span><input type="number" min="0" id="p2a" oninput="st(2)"></div>
+  <div class="opt"><span>b) Ser escuchada: mi relato es una prueba fundamental</span><input type="number" min="0" id="p2b" oninput="st(2)"></div>
+  <div class="opt"><span>c) Recibir información: conocer los avances de los casos</span><input type="number" min="0" id="p2c" oninput="st(2)"></div>
+  <div class="opt"><span>d) Ser reparada: construir medidas que transformen las condiciones de la violencia</span><input type="number" min="0" id="p2d" oninput="st(2)"></div>
+  <div class="opt"><span>e) Todas las anteriores</span><input type="number" min="0" id="p2e" oninput="st(2)"></div>
+  <div class="subtot" id="s2"></div></div>
+
+<div class="block"><h3>3. ¿Sientes que la justicia restaurativa pone en el centro de sus actuaciones a:</h3>
+  <div class="opt"><span>a) Las víctimas, buscando reparar el daño, sanar y dignificar su condición</span><input type="number" min="0" id="p3a" oninput="st(3)"></div>
+  <div class="opt"><span>b) El responsable, para castigarlo</span><input type="number" min="0" id="p3b" oninput="st(3)"></div>
+  <div class="opt"><span>c) La ley que se vulneró</span><input type="number" min="0" id="p3c" oninput="st(3)"></div>
+  <div class="opt"><span>d) La imposición de una condena</span><input type="number" min="0" id="p3d" oninput="st(3)"></div>
+  <div class="subtot" id="s3"></div></div>
+
+<div class="block"><h3>4. ¿El enfoque de género de la JEP reconoce la violencia sexual como una práctica generalizada y sistemática en el conflicto armado, reflejo de discriminación histórica?</h3>
+  <div class="opt"><span>a) Sí la reconoce</span><input type="number" min="0" id="p4a" oninput="st(4)"></div>
+  <div class="opt"><span>b) No la reconoce</span><input type="number" min="0" id="p4b" oninput="st(4)"></div>
+  <div class="opt"><span>c) No estoy segura</span><input type="number" min="0" id="p4c" oninput="st(4)"></div>
+  <div class="opt"><span>d) De nada sirve si no se repara a las víctimas</span><input type="number" min="0" id="p4d" oninput="st(4)"></div>
+  <div class="subtot" id="s4"></div></div>
+
+<div class="block"><h3>5. ¿Consideras que las audiencias de reconocimiento de responsabilidad son buenas porque:</h3>
+  <div class="opt"><span>a) Los comparecientes reconocen ante las víctimas y el país los crímenes cometidos</span><input type="number" min="0" id="p5a" oninput="st(5)"></div>
+  <div class="opt"><span>b) Permiten a las víctimas escuchar el reconocimiento público de la verdad, algo reparador</span><input type="number" min="0" id="p5b" oninput="st(5)"></div>
+  <div class="opt"><span>c) Rompen el silencio y la negación, y dignifican el dolor de las víctimas</span><input type="number" min="0" id="p5c" oninput="st(5)"></div>
+  <div class="opt"><span>d) Reconocen el derecho de las víctimas a participar</span><input type="number" min="0" id="p5d" oninput="st(5)"></div>
+  <div class="subtot" id="s5"></div></div>
+
+<div class="block"><h3>6. ¿Estás de acuerdo con que los TOAR (Trabajos, Obras y Actividades con contenido Reparador-Restaurador) son un mecanismo de reparación usado por la JEP?</h3>
+  <div class="opt"><span>a) Sí, completamente</span><input type="number" min="0" id="p6a" oninput="st(6)"></div>
+  <div class="opt"><span>b) Sí, en parte</span><input type="number" min="0" id="p6b" oninput="st(6)"></div>
+  <div class="opt"><span>c) No estoy segura</span><input type="number" min="0" id="p6c" oninput="st(6)"></div>
+  <div class="opt"><span>d) No, aún tengo muchas dudas</span><input type="number" min="0" id="p6d" oninput="st(6)"></div>
+  <div class="subtot" id="s6"></div></div>
+
+<div class="btns"><button class="btn-copy" onclick="copiar()">Copiar</button><button class="btn-send" id="bs" onclick="enviar()">Enviar a Sheets</button></div>
+</div><div class="toast" id="toast"></div>
+<script>
+var URL_EXEC="https://script.google.com/macros/s/AKfycbxHPdPdJCOKbF8txE279EqjmQNx0dKBRWY3tvJ6rKgdUpYV1tBsu0FJc9rCI_gHf3Hu/exec";
+var Q={
+ 1:{ids:['p1a','p1b','p1c','p1d'],lab:['Sí, completamente','Sí, en parte','No estoy segura','No, no lo creo']},
+ 2:{ids:['p2a','p2b','p2c','p2d','p2e'],lab:['Participar','Ser escuchada','Recibir información','Ser reparada','Todas las anteriores']},
+ 3:{ids:['p3a','p3b','p3c','p3d'],lab:['Las víctimas','El responsable, para castigarlo','La ley que se vulneró','La imposición de una condena']},
+ 4:{ids:['p4a','p4b','p4c','p4d'],lab:['Sí la reconoce','No la reconoce','No estoy segura','De nada sirve si no se repara']},
+ 5:{ids:['p5a','p5b','p5c','p5d'],lab:['Reconocen los crímenes ante las víctimas','Escuchar el reconocimiento público','Rompen el silencio y dignifican','Reconocen el derecho a participar']},
+ 6:{ids:['p6a','p6b','p6c','p6d'],lab:['Sí, completamente','Sí, en parte','No estoy segura','No, aún tengo dudas']}
+};
+function showToast(m,t){var e=document.getElementById('toast');e.textContent=m;e.className='toast '+(t||'');e.classList.add('show');setTimeout(function(){e.classList.remove('show');},3000);}
+function v(id){var el=document.getElementById(id);return el?(el.value||'').trim():'';}
+function n(id){var x=parseInt(v(id),10);return isNaN(x)?0:x;}
+function sum(q){return Q[q].ids.reduce(function(a,id){return a+n(id);},0);}
+function st(q){var s=sum(q),tot=n('f-total'),el=document.getElementById('s'+q);
+ if(!tot){el.textContent='Suma: '+s;el.className='subtot';return;}
+ el.textContent='Suma: '+s+' de '+tot;el.className='subtot'+(s>tot?' bad':'');}
+function checkAll(){for(var q=1;q<=6;q++)st(q);}
+function pstr(q){return Q[q].lab.map(function(l,i){return l+': '+n(Q[q].ids[i]);}).join(' | ');}
+function texto(){var t='Evaluación círculo de acreditación\nSede: '+v('f-sede')+' | Fecha: '+v('f-fecha')+' | Total: '+v('f-total')+'\n';
+ for(var q=1;q<=6;q++)t+='P'+q+': '+pstr(q)+'\n';return t;}
+function copiar(){navigator.clipboard&&navigator.clipboard.writeText(texto()).then(function(){showToast('¡Copiado!','success');});}
+function enviar(){
+ if(URL_EXEC.indexOf('__')===0){showToast('Falta pegar la URL /exec','error');return;}
+ var b=document.getElementById('bs');b.disabled=true;b.textContent='Enviando…';
+ var pr=new URLSearchParams({tipo:'eval_acred',fecha:v('f-fecha'),sede:v('f-sede'),facilitadora:v('f-facilitadora'),total:v('f-total'),
+  p1:pstr(1),p2:pstr(2),p3:pstr(3),p4:pstr(4),p5:pstr(5),p6:pstr(6)});
+ fetch(URL_EXEC+'?'+pr.toString()).then(function(r){return r.text();}).then(function(){showToast('¡Enviado a Sheets!','success');b.disabled=false;b.textContent='Enviar a Sheets';}).catch(function(){showToast('Error — revisa el internet','error');b.disabled=false;b.textContent='Enviar a Sheets';});}
+document.addEventListener('DOMContentLoaded',function(){var f=document.getElementById('f-fecha');if(f)f.value=new Date().toISOString().split('T')[0];});
+</script></body></html>
