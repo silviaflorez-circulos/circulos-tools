@@ -1,0 +1,194 @@
+/* ===================================================================
+   Estrategia Mi Vida — estilo compartido para las capturas de evaluación
+   Calca la estética de la app Power Apps: barras naranjas con letra en
+   círculo, tarjetas de termómetro por color, steppers +/- cuadrados.
+   =================================================================== */
+
+:root{
+  --naranja:        #E8823C;
+  --naranja-oscuro: #C96A28;
+  --naranja-claro:  #F7E4D3;
+  --fondo:          #FFFFFF;
+  --fondo-app:      #FAFAF8;
+  --texto:          #333333;
+  --texto-suave:    #777777;
+  --borde:          #DADAD6;
+
+  --n1-bg: #F6B9B9; --n1-tx: #8C1F1F;   /* muy triste / muy mala */
+  --n2-bg: #F7C9AE; --n2-tx: #9A4A1F;   /* triste / mala */
+  --n3-bg: #F7E39A; --n3-tx: #8A6B10;   /* regular */
+  --n4-bg: #CFE8B0; --n4-tx: #3B6D11;   /* bien / buena */
+  --n5-bg: #A9DDA1; --n5-tx: #1B5E20;   /* muy bien / excelente */
+
+  --verde-voto: #3B6D11;
+  --rojo-voto:  #A32D2D;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family: -apple-system, "Segoe UI", Arial, Helvetica, sans-serif;
+  background:var(--fondo-app);
+  color:var(--texto);
+}
+
+.app{ max-width:680px; margin:0 auto; min-height:100vh; background:var(--fondo); }
+
+/* ---------- Encabezado general (parte superior fija) ---------- */
+.masthead{
+  padding:14px 20px;
+  border-bottom:1px solid var(--borde);
+}
+.masthead h1{ margin:0; font-size:16px; color:var(--texto); }
+.masthead p{ margin:3px 0 0; font-size:12px; color:var(--texto-suave); }
+
+.progress-wrap{ background:#EFE2D4; height:5px; }
+.progress-bar{ background:var(--naranja); height:5px; width:0%; transition:width .25s; }
+.step-label{ display:flex; justify-content:space-between; padding:8px 20px 0; font-size:12px; color:var(--texto-suave); }
+
+.step-dots{ display:flex; gap:6px; padding:10px 20px 0; flex-wrap:wrap; }
+.step-dots .dot{
+  flex:1; min-width:24px; height:26px; border-radius:6px; border:1px solid var(--borde);
+  background:#fff; font-size:11px; font-weight:bold; color:var(--texto-suave);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.step-dots .dot.done{ background:var(--naranja-claro); color:var(--naranja-oscuro); border-color:var(--naranja-claro); }
+.step-dots .dot.active{ background:var(--naranja); color:#fff; border-color:var(--naranja); }
+
+/* ---------- Barra naranja de sección (con letra en círculo) ---------- */
+.seccion-bar{
+  background:var(--naranja);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 20px;
+  margin-top:18px;
+}
+.seccion-bar .badge{
+  width:30px; height:30px; border-radius:50%;
+  background:rgba(255,255,255,0.28);
+  display:flex; align-items:center; justify-content:center;
+  font-weight:bold; font-size:14px; flex:none;
+}
+.seccion-bar .titulo{ font-weight:bold; font-size:13px; letter-spacing:.3px; text-transform:uppercase; }
+
+.seccion-body{ padding:18px 20px; }
+
+/* ---------- Campos de encabezado ---------- */
+.campo{ margin-bottom:16px; }
+.campo label{ display:block; font-size:12.5px; color:var(--texto-suave); margin-bottom:6px; }
+.campo input[type=text], .campo input[type=date], .campo input[type=number], .campo textarea{
+  width:100%; padding:10px 12px; border:1px solid var(--borde); border-radius:8px;
+  font-size:14px; font-family:inherit; background:#fff;
+}
+.campo textarea{ min-height:70px; resize:vertical; }
+.campo-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+/* ---------- Termómetro (tarjetas de color con stepper vertical) ---------- */
+.thermo-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+.thermo-card{ border-radius:10px; overflow:hidden; border:1px solid var(--borde); }
+.thermo-top{ padding:14px 4px 10px; text-align:center; }
+.thermo-top .num{ font-size:26px; font-weight:bold; line-height:1; }
+.thermo-top .lbl{ font-size:10.5px; margin-top:4px; font-weight:600; }
+.n1 .thermo-top{ background:var(--n1-bg); } .n1 .num,.n1 .lbl{ color:var(--n1-tx); }
+.n2 .thermo-top{ background:var(--n2-bg); } .n2 .num,.n2 .lbl{ color:var(--n2-tx); }
+.n3 .thermo-top{ background:var(--n3-bg); } .n3 .num,.n3 .lbl{ color:var(--n3-tx); }
+.n4 .thermo-top{ background:var(--n4-bg); } .n4 .num,.n4 .lbl{ color:var(--n4-tx); }
+.n5 .thermo-top{ background:var(--n5-bg); } .n5 .num,.n5 .lbl{ color:var(--n5-tx); }
+
+/* Semáforo de 3 colores (Círculo 2 y 4) */
+.sem-verde .thermo-top{ background:#CFE8B0; } .sem-verde .num,.sem-verde .lbl{ color:#1B5E20; }
+.sem-amarillo .thermo-top{ background:#F7E39A; } .sem-amarillo .num,.sem-amarillo .lbl{ color:#8A6B10; }
+.sem-rojo .thermo-top{ background:#F6B9B9; } .sem-rojo .num,.sem-rojo .lbl{ color:#8C1F1F; }
+
+/* Zonas Verdad / Justicia / Reparación (Círculo 4) */
+.vjr-verdad .thermo-top{ background:#C7D9F0; } .vjr-verdad .num,.vjr-verdad .lbl{ color:#1F3D6B; }
+.vjr-justicia .thermo-top{ background:#E3CDEF; } .vjr-justicia .num,.vjr-justicia .lbl{ color:#5A2A73; }
+.vjr-reparacion .thermo-top{ background:#F3DDA8; } .vjr-reparacion .num,.vjr-reparacion .lbl{ color:#8A5A10; }
+
+.thermo-grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+
+.info-banner{ background:#EAF1F8; border:1px solid #C7D9F0; border-radius:8px; padding:10px 12px; font-size:12px; color:#1F3D6B; margin-bottom:14px; }
+
+.thermo-stepper{ background:#fff; padding:8px; display:flex; flex-direction:column; align-items:center; gap:6px; }
+.stp-btn{
+  width:100%; height:26px; border-radius:6px; border:1px solid var(--borde);
+  background:#fff; font-size:14px; cursor:pointer; color:var(--texto);
+}
+.stp-btn:active{ background:var(--naranja-claro); }
+.thermo-stepper input{
+  width:100%; text-align:center; border:1px solid var(--borde); border-radius:6px;
+  padding:4px 0; font-size:14px; font-weight:bold;
+}
+
+.sum-check{ margin-top:10px; font-size:12px; padding:9px 12px; border-radius:8px; background:#F0F0EE; text-align:center; }
+.sum-ok{ background:#E3F2E1; color:#27500A; }
+.sum-bad{ background:#FBEAEA; color:var(--rojo-voto); }
+
+/* ---------- Mural de derechos: dos columnas, stepper horizontal ---------- */
+.mural-grid{ display:grid; grid-template-columns:1fr 1fr; column-gap:24px; }
+.mural-item{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 0; border-bottom:1px solid #F0F0EE;
+}
+.mural-item .nombre{ font-size:14px; }
+.hstepper{ display:flex; align-items:center; gap:6px; }
+.hstepper .sq{
+  width:28px; height:28px; border-radius:6px; border:1px solid var(--borde);
+  background:#fff; font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+}
+.hstepper input{ width:34px; text-align:center; border:1px solid var(--borde); border-radius:6px; padding:5px 0; font-size:13px; font-weight:bold; }
+
+/* ---------- Instituciones: lista de una columna, stepper horizontal ---------- */
+.inst-row{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 0; border-bottom:1px solid #F0F0EE;
+}
+.inst-row .nombre{ font-size:14px; }
+
+/* ---------- Votación de afirmaciones ---------- */
+.afirm-card{ border:1px solid var(--borde); border-radius:10px; padding:14px; margin-bottom:14px; }
+.afirm-card p{ font-size:12.5px; margin:0 0 10px; color:var(--texto); }
+.vote-row{ display:flex; gap:10px; }
+.vote-btn{ flex:1; padding:9px; border-radius:8px; border:none; color:#fff; font-size:13px; cursor:pointer; font-weight:bold; }
+.vote-verde{ background:var(--verde-voto); }
+.vote-roja{ background:var(--rojo-voto); }
+.vote-count{ font-size:12px; text-align:center; margin-top:6px; color:#555; }
+.bar-bg{ background:#eee; border-radius:4px; height:8px; margin-top:8px; overflow:hidden; }
+.bar-fill{ height:8px; background:var(--verde-voto); }
+.pct-label{ font-size:11.5px; margin-top:4px; font-weight:bold; }
+
+/* ---------- Pills (usadas como alternativa rápida, no en C1 final) ---------- */
+.pills{ display:flex; flex-wrap:wrap; gap:8px; }
+.pill{ padding:7px 12px; border-radius:20px; border:1px solid var(--borde); font-size:12.5px; cursor:pointer; background:#fff; }
+.pill.sel{ background:var(--naranja); color:#fff; border-color:var(--naranja); }
+
+/* ---------- Barra inferior de navegación ---------- */
+.bottom-bar{
+  position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--borde);
+  padding:12px 20px; display:flex; gap:10px; max-width:680px; margin:0 auto;
+}
+.bottom-bar button{ flex:1; padding:13px; border:none; border-radius:8px; font-size:14px; font-weight:bold; cursor:pointer; }
+#btn-back{ background:#eee; color:#555; flex:0 0 90px; }
+#btn-next{ background:var(--naranja); color:#fff; }
+
+.content{ padding-bottom:110px; }
+
+.config-box{ background:#FFF8E1; border:1px solid #E8D68A; border-radius:8px; padding:10px 20px; margin:16px 20px; font-size:12px; }
+.config-box input{ margin-top:6px; width:100%; padding:8px 10px; border:1px solid var(--borde); border-radius:6px; }
+
+.banner-ok{ background:#E3F2E1; color:#27500A; padding:14px; border-radius:8px; text-align:center; font-size:14px; margin:16px 20px; }
+
+/* ---------- Menú de inicio (index.html) ---------- */
+.home-card{
+  display:block; text-decoration:none; color:var(--texto);
+  border:1px solid var(--borde); border-radius:12px; padding:18px 20px; margin:14px 20px;
+}
+.home-card .badge{
+  display:inline-flex; width:34px; height:34px; border-radius:50%; background:var(--naranja);
+  color:#fff; align-items:center; justify-content:center; font-weight:bold; margin-bottom:8px;
+}
+.home-card h3{ margin:0 0 4px; font-size:15px; }
+.home-card p{ margin:0; font-size:12.5px; color:var(--texto-suave); }
