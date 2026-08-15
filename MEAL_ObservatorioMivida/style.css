@@ -28,9 +28,15 @@
 
 body{
   margin:0;
-  font-family: -apple-system, "Segoe UI", Arial, Helvetica, sans-serif;
+  font-family: "Courier New", Courier, monospace;
   background:var(--fondo-app);
   color:var(--texto);
+}
+
+/* Los controles de formulario NO heredan la fuente del body por defecto en los
+   navegadores — hay que forzarlo explícitamente, o quedan con la fuente del sistema. */
+button, input, textarea, select{
+  font-family:"Courier New", Courier, monospace;
 }
 
 .app{ max-width:680px; margin:0 auto; min-height:100vh; background:var(--fondo); }
