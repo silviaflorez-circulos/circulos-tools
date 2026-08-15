@@ -45,7 +45,12 @@ button, input, textarea, select{
 .masthead{
   padding:14px 20px;
   border-bottom:1px solid var(--borde);
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
+.masthead img.logo{ height:42px; width:auto; flex:none; }
+.masthead .titulos{ flex:1; min-width:0; }
 .masthead h1{ margin:0; font-size:16px; color:var(--texto); }
 .masthead p{ margin:3px 0 0; font-size:12px; color:var(--texto-suave); }
 
