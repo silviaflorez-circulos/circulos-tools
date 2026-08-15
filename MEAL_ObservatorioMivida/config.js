@@ -11,5 +11,5 @@
 // ============================================================
 
 const CONFIG = {
-  SCRIPT_URL: "PEGA_AQUI_TU_URL_DE_APPS_SCRIPT_TERMINADA_EN_/exec"
+  SCRIPT_URL: SCRIPT_URL: "https://script.google.com/a/macros/circulodeestudios.org/s/AKfycbwtx6MFCxc_-7EetS7iQb3gIrPBGwGScAP3G-IBiUMZg7pDa0yi6raGKcwleSwbPmtifQ/exec"
 };
