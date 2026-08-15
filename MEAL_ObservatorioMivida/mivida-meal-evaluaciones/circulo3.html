@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Círculo 3 — Estrategia Mi Vida</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="masthead">
+    <h1>Círculo 3 — Duelo, legado y justicia</h1>
+    <p>Estrategia Mi Vida · Contrato nº 81088044 Embajada de Suiza 2026</p>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+  <div class="step-label"><span id="step-name">Datos del encuentro</span><span id="step-frac">Paso 1 de 8</span></div>
+  <div class="step-dots" id="step-dots"></div>
+
+  <div class="config-box">
+    <b>URL de Google Apps Script</b> (se autocompleta desde assets/config.js):
+    <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/AKfycb.../exec">
+  </div>
+
+  <div class="content">
+
+    <div class="step" data-step="0">
+      <div class="seccion-bar"><div class="badge">A</div><div class="titulo">Datos del encuentro</div></div>
+      <div class="seccion-body">
+        <div class="campo-grid">
+          <div class="campo"><label>Fecha del círculo</label><input type="date" id="Fecha"></div>
+          <div class="campo"><label>Facilitadora</label><input type="text" id="Facilitador"></div>
+        </div>
+        <div class="campo-grid">
+          <div class="campo"><label>Lugar</label><input type="text" id="Lugar"></div>
+          <div class="campo"><label>ID Grupo</label><input type="text" id="IDGrupo" placeholder="G01/G02_MesAño"></div>
+        </div>
+        <div class="campo-grid">
+          <div class="campo"><label>Nº convocadas</label><input type="number" id="NumConvocadas" min="0" value="0"></div>
+          <div class="campo"><label>Nº presentes</label><input type="number" id="NumParticipantes" min="0" value="0"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-step="1" style="display:none">
+      <div class="seccion-bar"><div class="badge">B</div><div class="titulo">Termómetro de llegada</div></div>
+      <div class="seccion-body">
+        <div class="thermo-grid">
+          <div class="thermo-card n1"><div class="thermo-top"><div class="num">1</div><div class="lbl">Muy triste</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('th1',1)">+</button><input id="th1" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('th1',-1)">−</button></div></div>
+          <div class="thermo-card n2"><div class="thermo-top"><div class="num">2</div><div class="lbl">Triste</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('th2',1)">+</button><input id="th2" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('th2',-1)">−</button></div></div>
+          <div class="thermo-card n3"><div class="thermo-top"><div class="num">3</div><div class="lbl">Regular</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('th3',1)">+</button><input id="th3" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('th3',-1)">−</button></div></div>
+          <div class="thermo-card n4"><div class="thermo-top"><div class="num">4</div><div class="lbl">Bien</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('th4',1)">+</button><input id="th4" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('th4',-1)">−</button></div></div>
+          <div class="thermo-card n5"><div class="thermo-top"><div class="num">5</div><div class="lbl">Muy bien</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('th5',1)">+</button><input id="th5" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('th5',-1)">−</button></div></div>
+        </div>
+        <div class="sum-check" id="sum-llegada">Suma: 0 / presentes: 0</div>
+      </div>
+    </div>
+
+    <div class="step" data-step="2" style="display:none">
+      <div class="seccion-bar"><div class="badge">C</div><div class="titulo">Silueta de las emociones</div></div>
+      <div class="seccion-body">
+        <div class="inst-row"><span class="nombre">Nº de participantes que compartieron su silueta en plenaria</span><div class="hstepper"><button class="sq" onclick="hstep('Silueta_Compartieron_Num',-1)">−</button><input id="Silueta_Compartieron_Num" type="number" min="0" value="0" readonly><button class="sq" onclick="hstep('Silueta_Compartieron_Num',1)">+</button></div></div>
+      </div>
+    </div>
+
+    <div class="step" data-step="3" style="display:none">
+      <div class="seccion-bar"><div class="badge">D</div><div class="titulo">Etapas del duelo — conteo de manos</div></div>
+      <div class="seccion-body">
+        <div class="inst-row"><span class="nombre">Negación</span><div class="hstepper"><button class="sq" onclick="hstep('Duelo_Negacion_Num',-1)">−</button><input id="Duelo_Negacion_Num" type="number" min="0" value="0" readonly><button class="sq" onclick="hstep('Duelo_Negacion_Num',1)">+</button></div></div>
+        <div class="inst-row"><span class="nombre">Ira</span><div class="hstepper"><button class="sq" onclick="hstep('Duelo_Ira_Num',-1)">−</button><input id="Duelo_Ira_Num" type="number" min="0" value="0" readonly><button class="sq" onclick="hstep('Duelo_Ira_Num',1)">+</button></div></div>
+        <div class="inst-row"><span class="nombre">Negociación</span><div class="hstepper"><button class="sq" onclick="hstep('Duelo_Negociacion_Num',-1)">−</button><input id="Duelo_Negociacion_Num" type="number" min="0" value="0" readonly><button class="sq" onclick="hstep('Duelo_Negociacion_Num',1)">+</button></div></div>
+        <div class="inst-row"><span class="nombre">Depresión</span><div class="hstepper"><button class="sq" onclick="hstep('Duelo_Depresion_Num',-1)">−</button><input id="Duelo_Depresion_Num" type="number" min="0" value="0" readonly><button class="sq" onclick="hstep('Duelo_Depresion_Num',1)">+</button></div></div>
+        <div class="inst-row"><span class="nombre">Aceptación</span><div class="hstepper"><button class="sq" onclick="hstep('Duelo_Aceptacion_Num',-1)">−</button><input id="Duelo_Aceptacion_Num" type="number" min="0" value="0" readonly><button class="sq" onclick="hstep('Duelo_Aceptacion_Num',1)">+</button></div></div>
+      </div>
+    </div>
+
+    <div class="step" data-step="4" style="display:none">
+      <div class="seccion-bar"><div class="badge">E</div><div class="titulo">Legado</div></div>
+      <div class="seccion-body">
+        <div class="inst-row"><span class="nombre">Pergaminos de legado depositados en la canastica</span><div class="hstepper"><button class="sq" onclick="hstep('Legado_Pergaminos_Depositados',-1)">−</button><input id="Legado_Pergaminos_Depositados" type="number" min="0" value="0" readonly><button class="sq" onclick="hstep('Legado_Pergaminos_Depositados',1)">+</button></div></div>
+        <div class="inst-row"><span class="nombre">Participantes que compartieron su legado en voz alta</span><div class="hstepper"><button class="sq" onclick="hstep('Legado_Compartidos_Num',-1)">−</button><input id="Legado_Compartidos_Num" type="number" min="0" value="0" readonly><button class="sq" onclick="hstep('Legado_Compartidos_Num',1)">+</button></div></div>
+      </div>
+    </div>
+
+    <div class="step" data-step="5" style="display:none">
+      <div class="seccion-bar"><div class="badge">F</div><div class="titulo">Termómetro de salida</div></div>
+      <div class="seccion-body">
+        <div class="info-banner">Un delta negativo (que el grupo salga "más triste" que como llegó) es esperado y normal en este círculo — es el de mayor carga emocional del proceso. No es una alerta.</div>
+        <div class="thermo-grid">
+          <div class="thermo-card n1"><div class="thermo-top"><div class="num">1</div><div class="lbl">Muy triste</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('ts1',1)">+</button><input id="ts1" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('ts1',-1)">−</button></div></div>
+          <div class="thermo-card n2"><div class="thermo-top"><div class="num">2</div><div class="lbl">Triste</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('ts2',1)">+</button><input id="ts2" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('ts2',-1)">−</button></div></div>
+          <div class="thermo-card n3"><div class="thermo-top"><div class="num">3</div><div class="lbl">Regular</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('ts3',1)">+</button><input id="ts3" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('ts3',-1)">−</button></div></div>
+          <div class="thermo-card n4"><div class="thermo-top"><div class="num">4</div><div class="lbl">Bien</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('ts4',1)">+</button><input id="ts4" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('ts4',-1)">−</button></div></div>
+          <div class="thermo-card n5"><div class="thermo-top"><div class="num">5</div><div class="lbl">Muy bien</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('ts5',1)">+</button><input id="ts5" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('ts5',-1)">−</button></div></div>
+        </div>
+        <div class="sum-check" id="sum-salida">Suma: 0 / presentes: 0</div>
+      </div>
+    </div>
+
+    <div class="step" data-step="6" style="display:none">
+      <div class="seccion-bar"><div class="badge">G</div><div class="titulo">Caritas de satisfacción</div></div>
+      <div class="seccion-body">
+        <div class="thermo-grid">
+          <div class="thermo-card n1"><div class="thermo-top"><div class="num">:((</div><div class="lbl">Muy mala</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('sf1',1)">+</button><input id="sf1" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('sf1',-1)">−</button></div></div>
+          <div class="thermo-card n2"><div class="thermo-top"><div class="num">:(</div><div class="lbl">Mala</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('sf2',1)">+</button><input id="sf2" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('sf2',-1)">−</button></div></div>
+          <div class="thermo-card n3"><div class="thermo-top"><div class="num">:-|</div><div class="lbl">Regular</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('sf3',1)">+</button><input id="sf3" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('sf3',-1)">−</button></div></div>
+          <div class="thermo-card n4"><div class="thermo-top"><div class="num">:)</div><div class="lbl">Buena</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('sf4',1)">+</button><input id="sf4" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('sf4',-1)">−</button></div></div>
+          <div class="thermo-card n5"><div class="thermo-top"><div class="num">:D</div><div class="lbl">Excelente</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="step2('sf5',1)">+</button><input id="sf5" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="step2('sf5',-1)">−</button></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-step="7" style="display:none">
+      <div class="seccion-bar"><div class="badge">H</div><div class="titulo">Nota de cierre (obligatoria)</div></div>
+      <div class="seccion-body">
+        <div class="campo"><label>Nota de cierre — obligatoria en este círculo por su alta carga emocional</label><textarea id="NotaCierre_Obligatoria"></textarea></div>
+        <div id="ok-banner" style="display:none" class="banner-ok">✓ Registro enviado. Verifica la pestaña "Circulo3" de tu Google Sheet.</div>
+        <div id="reset-wrap" style="display:none; margin-top:10px;">
+          <button onclick="reiniciar()" style="width:100%; padding:12px; border:none; border-radius:8px; background:#0C447C; color:#fff; font-weight:bold; cursor:pointer;">+ Registrar otra sesión de Círculo 3</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <button id="btn-back" onclick="prevStep()" style="display:none">← Atrás</button>
+    <button id="btn-next" onclick="nextStep()">Siguiente →</button>
+  </div>
+
+</div>
+
+<iframe name="hidden_submit_frame" style="display:none"></iframe>
+
+<script src="assets/config.js"></script>
+<script>
+document.getElementById('scriptUrl').value = (typeof CONFIG !== 'undefined' && CONFIG.SCRIPT_URL.indexOf('PEGA_AQUI') === -1) ? CONFIG.SCRIPT_URL : '';
+
+const steps = [0,1,2,3,4,5,6,7];
+const stepNames = ["Datos del encuentro","Termómetro de llegada","Silueta","Etapas del duelo","Legado","Termómetro de salida","Caritas de satisfacción","Cierre obligatorio"];
+let cur = 0;
+
+const dotsWrap = document.getElementById('step-dots');
+stepNames.forEach((name,i)=>{
+  const d = document.createElement('div'); d.className='dot'; d.textContent=(i+1); d.title=name;
+  d.onclick = ()=>{ cur=i; show(i); }; dotsWrap.appendChild(d);
+});
+
+function show(n){
+  document.querySelectorAll('.step').forEach(s=>s.style.display='none');
+  document.querySelector('.step[data-step="'+n+'"]').style.display='block';
+  document.getElementById('pbar').style.width = ((n+1)/steps.length*100)+'%';
+  document.getElementById('step-name').textContent = stepNames[n];
+  document.getElementById('step-frac').textContent = 'Paso '+(n+1)+' de '+steps.length;
+  document.getElementById('btn-back').style.display = n>0 ? 'inline-block':'none';
+  document.getElementById('btn-next').textContent = n===steps.length-1 ? 'Guardar en Google Sheets ✓' : 'Siguiente →';
+  document.querySelectorAll('.step-dots .dot').forEach((d,i)=>{ d.classList.toggle('active', i===n); d.classList.toggle('done', i<n); });
+}
+function nextStep(){ if(cur < steps.length-1){ cur++; show(cur);} else { guardar(); } }
+function prevStep(){ if(cur>0){ cur--; show(cur);} }
+
+function step2(id, delta){
+  const el = document.getElementById(id);
+  el.value = Math.max(0, (parseInt(el.value)||0) + delta);
+  if(id.startsWith('th')) checkSum('th','sum-llegada');
+  if(id.startsWith('ts')) checkSum('ts','sum-salida');
+}
+function hstep(id, delta){ const el=document.getElementById(id); el.value = Math.max(0,(parseInt(el.value)||0)+delta); }
+function checkSum(prefix, boxId){
+  let sum = 0; for(let i=1;i<=5;i++) sum += parseInt(document.getElementById(prefix+i).value)||0;
+  const presentes = parseInt(document.getElementById('NumParticipantes').value)||0;
+  const box = document.getElementById(boxId);
+  box.textContent = 'Suma: '+sum+' / presentes: '+presentes;
+  box.className = 'sum-check ' + (sum===presentes && presentes>0 ? 'sum-ok' : 'sum-bad');
+}
+
+function val(id){ const e=document.getElementById(id); return e?e.value:''; }
+
+function guardar(){
+  const scriptUrl = document.getElementById('scriptUrl').value.trim();
+  if(!scriptUrl){ alert('Falta la URL de Google Apps Script. Pégala arriba o en assets/config.js.'); cur=0; show(0); return; }
+
+  const data = {
+    circulo: 'Circulo3',
+    Timestamp: new Date().toISOString().slice(0,16).replace('T',' '),
+    Fecha: val('Fecha'), Facilitador: val('Facilitador'), Lugar: val('Lugar'), IDGrupo: val('IDGrupo'),
+    NumConvocadas: val('NumConvocadas'), NumParticipantes: val('NumParticipantes'),
+    EE_Llegada_N1: val('th1'), EE_Llegada_N2: val('th2'), EE_Llegada_N3: val('th3'), EE_Llegada_N4: val('th4'), EE_Llegada_N5: val('th5'),
+    Silueta_Compartieron_Num: val('Silueta_Compartieron_Num'),
+    Duelo_Negacion_Num: val('Duelo_Negacion_Num'), Duelo_Ira_Num: val('Duelo_Ira_Num'), Duelo_Negociacion_Num: val('Duelo_Negociacion_Num'),
+    Duelo_Depresion_Num: val('Duelo_Depresion_Num'), Duelo_Aceptacion_Num: val('Duelo_Aceptacion_Num'),
+    Legado_Pergaminos_Depositados: val('Legado_Pergaminos_Depositados'), Legado_Compartidos_Num: val('Legado_Compartidos_Num'),
+    EE_Salida_N1: val('ts1'), EE_Salida_N2: val('ts2'), EE_Salida_N3: val('ts3'), EE_Salida_N4: val('ts4'), EE_Salida_N5: val('ts5'),
+    Satisf_N1: val('sf1'), Satisf_N2: val('sf2'), Satisf_N3: val('sf3'), Satisf_N4: val('sf4'), Satisf_N5: val('sf5'),
+    NotaCierre_Obligatoria: val('NotaCierre_Obligatoria')
+  };
+
+  const form = document.createElement('form');
+  form.method='POST'; form.action=scriptUrl; form.target='hidden_submit_frame';
+  Object.keys(data).forEach(k=>{ const i=document.createElement('input'); i.type='hidden'; i.name=k; i.value=data[k]; form.appendChild(i); });
+  document.body.appendChild(form); form.submit(); document.body.removeChild(form);
+
+  document.getElementById('ok-banner').style.display='block';
+  document.getElementById('reset-wrap').style.display='block';
+  document.getElementById('btn-next').textContent='Guardado ✓';
+  document.getElementById('btn-next').disabled=true;
+}
+
+function reiniciar(){
+  document.querySelectorAll('.content input[type=number]').forEach(i=>i.value='0');
+  document.querySelectorAll('.content input[type=text], .content input[type=date], .content textarea').forEach(i=>i.value='');
+  document.getElementById('sum-llegada').className='sum-check'; document.getElementById('sum-llegada').textContent='Suma: 0 / presentes: 0';
+  document.getElementById('sum-salida').className='sum-check'; document.getElementById('sum-salida').textContent='Suma: 0 / presentes: 0';
+  document.getElementById('ok-banner').style.display='none';
+  document.getElementById('reset-wrap').style.display='none';
+  document.getElementById('btn-next').disabled=false;
+  cur=0; show(0);
+}
+
+show(0);
+</script>
+</body>
+</html>
