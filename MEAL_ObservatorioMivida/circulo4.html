@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Círculo 4 — Estrategia Mi Vida</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="masthead">
+    <h1>Círculo 4 — Ritos fúnebres, cosmovisión afrodescendiente del Pacífico</h1>
+    <p>Estrategia Mi Vida · Contrato nº 81088044 Embajada de Suiza 2026</p>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+  <div class="step-label"><span id="step-name">Datos del encuentro</span><span id="step-frac">Paso 1 de 6</span></div>
+  <div class="step-dots" id="step-dots"></div>
+
+  <div class="config-box">
+    <b>URL de Google Apps Script</b> (se autocompleta desde config.js):
+    <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/AKfycb.../exec">
+  </div>
+
+  <div class="content">
+
+    <div class="step" data-step="0">
+      <div class="seccion-bar"><div class="badge">A</div><div class="titulo">Datos del encuentro</div></div>
+      <div class="seccion-body">
+        <div class="campo-grid">
+          <div class="campo"><label>Fecha del círculo</label><input type="date" id="Fecha"></div>
+          <div class="campo"><label>Facilitadora</label><input type="text" id="Facilitador"></div>
+        </div>
+        <div class="campo-grid">
+          <div class="campo"><label>Lugar</label><input type="text" id="Lugar" placeholder="Espacio al aire libre"></div>
+          <div class="campo"><label>ID Grupo</label><input type="text" id="IDGrupo" placeholder="G01/G02_MesAño"></div>
+        </div>
+        <div class="campo-grid">
+          <div class="campo"><label>Nº convocadas</label><input type="number" id="NumConvocadas" min="0" value="0"></div>
+          <div class="campo"><label>Nº presentes</label><input type="number" id="NumParticipantes" min="0" value="0"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-step="1" style="display:none">
+      <div class="seccion-bar"><div class="badge">B</div><div class="titulo">Zonas VJR — Verdad, Justicia, Reparación</div></div>
+      <div class="seccion-body">
+        <p style="font-size:12px;color:#777;margin-top:0">Cada madre se refiere a uno de los tres conceptos junto a su farol encendido. Cuenta cuántas hablaron de cada zona.</p>
+        <div class="thermo-grid-3">
+          <div class="thermo-card vjr-verdad"><div class="thermo-top"><div class="num">V</div><div class="lbl">Verdad</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="hstep('VJR_Verdad_Num',1)">+</button><input id="VJR_Verdad_Num" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="hstep('VJR_Verdad_Num',-1)">−</button></div></div>
+          <div class="thermo-card vjr-justicia"><div class="thermo-top"><div class="num">J</div><div class="lbl">Justicia</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="hstep('VJR_Justicia_Num',1)">+</button><input id="VJR_Justicia_Num" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="hstep('VJR_Justicia_Num',-1)">−</button></div></div>
+          <div class="thermo-card vjr-reparacion"><div class="thermo-top"><div class="num">R</div><div class="lbl">Reparación</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="hstep('VJR_Reparacion_Num',1)">+</button><input id="VJR_Reparacion_Num" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="hstep('VJR_Reparacion_Num',-1)">−</button></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-step="2" style="display:none">
+      <div class="seccion-bar"><div class="badge">C</div><div class="titulo">Nota del sancocho</div></div>
+      <div class="seccion-body">
+        <div class="campo"><label>Observaciones durante la preparación colectiva (música espontánea, quién habló, acompañamiento de la cantaora, etc.)</label><textarea id="NotaSancocho"></textarea></div>
+      </div>
+    </div>
+
+    <div class="step" data-step="3" style="display:none">
+      <div class="seccion-bar"><div class="badge">D</div><div class="titulo">Semáforo de cierre</div></div>
+      <div class="seccion-body">
+        <div class="thermo-grid-3">
+          <div class="thermo-card sem-verde"><div class="thermo-top"><div class="num">✓</div><div class="lbl">Verde</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="hstep('SemaforoCierre_Verde',1)">+</button><input id="SemaforoCierre_Verde" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="hstep('SemaforoCierre_Verde',-1)">−</button></div></div>
+          <div class="thermo-card sem-amarillo"><div class="thermo-top"><div class="num">~</div><div class="lbl">Amarillo</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="hstep('SemaforoCierre_Amarillo',1)">+</button><input id="SemaforoCierre_Amarillo" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="hstep('SemaforoCierre_Amarillo',-1)">−</button></div></div>
+          <div class="thermo-card sem-rojo"><div class="thermo-top"><div class="num">✕</div><div class="lbl">Rojo</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="hstep('SemaforoCierre_Rojo',1)">+</button><input id="SemaforoCierre_Rojo" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="hstep('SemaforoCierre_Rojo',-1)">−</button></div></div>
+        </div>
+        <div class="campo" style="margin-top:16px">
+          <label>Delta respecto al semáforo de disposición del Círculo 2 (compáralo manualmente con esa hoja)</label>
+          <input type="text" id="DeltaSemaforo_vsC2" placeholder="Ej: +3 en Verde vs Círculo 2">
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-step="4" style="display:none">
+      <div class="seccion-bar"><div class="badge">E</div><div class="titulo">Caritas finales</div></div>
+      <div class="seccion-body">
+        <div class="thermo-grid">
+          <div class="thermo-card n1"><div class="thermo-top"><div class="num">:((</div><div class="lbl">Muy mala</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="hstep('sf1',1)">+</button><input id="sf1" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="hstep('sf1',-1)">−</button></div></div>
+          <div class="thermo-card n2"><div class="thermo-top"><div class="num">:(</div><div class="lbl">Mala</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="hstep('sf2',1)">+</button><input id="sf2" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="hstep('sf2',-1)">−</button></div></div>
+          <div class="thermo-card n3"><div class="thermo-top"><div class="num">:-|</div><div class="lbl">Regular</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="hstep('sf3',1)">+</button><input id="sf3" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="hstep('sf3',-1)">−</button></div></div>
+          <div class="thermo-card n4"><div class="thermo-top"><div class="num">:)</div><div class="lbl">Buena</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="hstep('sf4',1)">+</button><input id="sf4" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="hstep('sf4',-1)">−</button></div></div>
+          <div class="thermo-card n5"><div class="thermo-top"><div class="num">:D</div><div class="lbl">Excelente</div></div><div class="thermo-stepper"><button class="stp-btn" onclick="hstep('sf5',1)">+</button><input id="sf5" type="number" min="0" value="0" readonly><button class="stp-btn" onclick="hstep('sf5',-1)">−</button></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-step="5" style="display:none">
+      <div class="seccion-bar"><div class="badge">F</div><div class="titulo">Nota de cierre del proceso (obligatoria)</div></div>
+      <div class="seccion-body">
+        <div class="campo"><label>Nota de cierre del proceso completo — obligatoria: transformaciones observadas en el grupo a lo largo de los 4 círculos</label><textarea id="NotaCierreProceso_Obligatoria"></textarea></div>
+        <div id="ok-banner" style="display:none" class="banner-ok">✓ Registro enviado. Verifica la pestaña "Circulo4" de tu Google Sheet.</div>
+        <div id="reset-wrap" style="display:none; margin-top:10px;">
+          <button onclick="reiniciar()" style="width:100%; padding:12px; border:none; border-radius:8px; background:#0C447C; color:#fff; font-weight:bold; cursor:pointer;">+ Registrar otra sesión de Círculo 4</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <button id="btn-back" onclick="prevStep()" style="display:none">← Atrás</button>
+    <button id="btn-next" onclick="nextStep()">Siguiente →</button>
+  </div>
+
+</div>
+
+<iframe name="hidden_submit_frame" style="display:none"></iframe>
+
+<script src="config.js"></script>
+<script>
+document.getElementById('scriptUrl').value = (typeof CONFIG !== 'undefined' && CONFIG.SCRIPT_URL.indexOf('PEGA_AQUI') === -1) ? CONFIG.SCRIPT_URL : '';
+
+const steps = [0,1,2,3,4,5];
+const stepNames = ["Datos del encuentro","Zonas VJR","Nota del sancocho","Semáforo de cierre","Caritas finales","Cierre del proceso"];
+let cur = 0;
+
+const dotsWrap = document.getElementById('step-dots');
+stepNames.forEach((name,i)=>{
+  const d = document.createElement('div'); d.className='dot'; d.textContent=(i+1); d.title=name;
+  d.onclick = ()=>{ cur=i; show(i); }; dotsWrap.appendChild(d);
+});
+
+function show(n){
+  document.querySelectorAll('.step').forEach(s=>s.style.display='none');
+  document.querySelector('.step[data-step="'+n+'"]').style.display='block';
+  document.getElementById('pbar').style.width = ((n+1)/steps.length*100)+'%';
+  document.getElementById('step-name').textContent = stepNames[n];
+  document.getElementById('step-frac').textContent = 'Paso '+(n+1)+' de '+steps.length;
+  document.getElementById('btn-back').style.display = n>0 ? 'inline-block':'none';
+  document.getElementById('btn-next').textContent = n===steps.length-1 ? 'Guardar en Google Sheets ✓' : 'Siguiente →';
+  document.querySelectorAll('.step-dots .dot').forEach((d,i)=>{ d.classList.toggle('active', i===n); d.classList.toggle('done', i<n); });
+}
+function nextStep(){ if(cur < steps.length-1){ cur++; show(cur);} else { guardar(); } }
+function prevStep(){ if(cur>0){ cur--; show(cur);} }
+function hstep(id, delta){ const el=document.getElementById(id); el.value = Math.max(0,(parseInt(el.value)||0)+delta); }
+
+function val(id){ const e=document.getElementById(id); return e?e.value:''; }
+
+function guardar(){
+  const scriptUrl = document.getElementById('scriptUrl').value.trim();
+  if(!scriptUrl){ alert('Falta la URL de Google Apps Script. Pégala arriba o en config.js.'); cur=0; show(0); return; }
+
+  const data = {
+    circulo: 'Circulo4',
+    Timestamp: new Date().toISOString().slice(0,16).replace('T',' '),
+    Fecha: val('Fecha'), Facilitador: val('Facilitador'), Lugar: val('Lugar'), IDGrupo: val('IDGrupo'),
+    NumConvocadas: val('NumConvocadas'), NumParticipantes: val('NumParticipantes'),
+    VJR_Verdad_Num: val('VJR_Verdad_Num'), VJR_Justicia_Num: val('VJR_Justicia_Num'), VJR_Reparacion_Num: val('VJR_Reparacion_Num'),
+    NotaSancocho: val('NotaSancocho'),
+    SemaforoCierre_Verde: val('SemaforoCierre_Verde'), SemaforoCierre_Amarillo: val('SemaforoCierre_Amarillo'), SemaforoCierre_Rojo: val('SemaforoCierre_Rojo'),
+    DeltaSemaforo_vsC2: val('DeltaSemaforo_vsC2'),
+    Satisf_N1: val('sf1'), Satisf_N2: val('sf2'), Satisf_N3: val('sf3'), Satisf_N4: val('sf4'), Satisf_N5: val('sf5'),
+    NotaCierreProceso_Obligatoria: val('NotaCierreProceso_Obligatoria')
+  };
+
+  const form = document.createElement('form');
+  form.method='POST'; form.action=scriptUrl; form.target='hidden_submit_frame';
+  Object.keys(data).forEach(k=>{ const i=document.createElement('input'); i.type='hidden'; i.name=k; i.value=data[k]; form.appendChild(i); });
+  document.body.appendChild(form); form.submit(); document.body.removeChild(form);
+
+  document.getElementById('ok-banner').style.display='block';
+  document.getElementById('reset-wrap').style.display='block';
+  document.getElementById('btn-next').textContent='Guardado ✓';
+  document.getElementById('btn-next').disabled=true;
+}
+
+function reiniciar(){
+  document.querySelectorAll('.content input[type=number]').forEach(i=>i.value='0');
+  document.querySelectorAll('.content input[type=text], .content input[type=date], .content textarea').forEach(i=>i.value='');
+  document.getElementById('ok-banner').style.display='none';
+  document.getElementById('reset-wrap').style.display='none';
+  document.getElementById('btn-next').disabled=false;
+  cur=0; show(0);
+}
+
+show(0);
+</script>
+</body>
+</html>
